@@ -1,0 +1,52 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <h2>Chat</h2>
+    <div class="container">
+        <input type="text" id="message" />
+        <input type="button" id="sendmessage" value="Send" />
+        <input type="hidden" id="displayname" />
+        <ul id="discussion"></ul>
+    </div>  
+
+    <script src="~/Scripts/jquery-1.6.4.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script type="text/javascript">
+        $(function () {
+            var chat = $.connection.chatHub;
+            chat.client.addMessage = function (name, message) {
+                $('#discussion').append('<li><strong>' + htmlEncode(name) + '</strong>:' + htmlEncode(message) + '</li>');
+            }
+            //获取输入的名称  
+            $('#displayname').val(prompt('Enter your name:', ''));
+            //将焦点定位在信息输入框中  
+            $('#message').focus();
+            //开启链接  
+            $.connection.hub.start().done(function () {
+                $('#sendmessage').click(function () {
+                    //调用后台hub的Send方法   
+                    chat.server.send($('#displayname').val(), $('#message').val());
+                    //清除发送的内容，并将焦点定位到信息框  
+                    $('#message').val('').focus();
+                });
+            });
+            //该function防止JS注入  
+            function htmlEncode(value) {
+                var encodeValue = $('<div/>').text(value).html();
+                return encodeValue;
+            }
+        });
+    </script>
+</body>
+</html>

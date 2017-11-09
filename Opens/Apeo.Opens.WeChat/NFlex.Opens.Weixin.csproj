@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C792D3B0-94F2-42A1-B6F8-5371C7EAF05F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NFlex.Opens.Weixin</RootNamespace>
+    <AssemblyName>NFlex.Opens.Weixin</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DefaultTokenContainer.cs" />
+    <Compile Include="Enums.cs" />
+    <Compile Include="EventDelegate.cs" />
+    <Compile Include="Managers\AccountManager.cs" />
+    <Compile Include="Managers\CardManager.cs" />
+    <Compile Include="Managers\CustomerServiceManager.cs" />
+    <Compile Include="Managers\ManagerBase.cs" />
+    <Compile Include="Managers\MassMessageManager.cs" />
+    <Compile Include="Managers\MaterialManager.cs" />
+    <Compile Include="Managers\MenuManager.cs" />
+    <Compile Include="Managers\TemplateManager.cs" />
+    <Compile Include="Managers\UserManager.cs" />
+    <Compile Include="Models\Results\BatchGetCardResult.cs" />
+    <Compile Include="Models\Results\CheckCodeResult.cs" />
+    <Compile Include="Models\Results\ConsumeCodeResult.cs" />
+    <Compile Include="Models\Results\ConvertToShortUrlResult.cs" />
+    <Compile Include="Models\Results\CreateCardQrcodeResult.cs" />
+    <Compile Include="Models\Results\CreateCardResult.cs" />
+    <Compile Include="Models\Results\CreateLandingPageResult.cs" />
+    <Compile Include="Models\Results\CreateQRCodeResult.cs" />
+    <Compile Include="Models\Results\CreateTagResult.cs" />
+    <Compile Include="Models\Results\DecryptCodeResult.cs" />
+    <Compile Include="Models\Results\GetCardNewsContentResult.cs" />
+    <Compile Include="Models\Results\GetCardStatisticsResult.cs" />
+    <Compile Include="Models\Results\GetCodeInfoResult.cs" />
+    <Compile Include="Models\Results\GetDepositCountResult.cs" />
+    <Compile Include="Models\Results\GetMemberCardDetailResult.cs" />
+    <Compile Include="Models\Results\GetMemberCardStatisticsResult.cs" />
+    <Compile Include="Models\Results\GetOAuthTokenResult.cs" />
+    <Compile Include="Models\Results\GetTagListResult.cs" />
+    <Compile Include="Models\Results\GetTagUsersResult.cs" />
+    <Compile Include="Models\Results\GetUserCardListResult.cs" />
+    <Compile Include="Models\Results\GetUserListResult.cs" />
+    <Compile Include="Models\Results\GetUserTagsResult.cs" />
+    <Compile Include="Models\Tag.cs" />
+    <Compile Include="PushMessage\EventArgs\CardPassCheckEventArgs.cs" />
+    <Compile Include="PushMessage\EventArgs\CardPayOrderEventArgs.cs" />
+    <Compile Include="PushMessage\EventArgs\CardSkuRemindEventArgs.cs" />
+    <Compile Include="PushMessage\EventArgs\EventArgsBase.cs" />
+    <Compile Include="PushMessage\EventArgs\MessageEndJobFinishEventArgs.cs" />
+    <Compile Include="PushMessage\EventArgs\SubmitMemberCardUserInfoEventArgs.cs" />
+    <Compile Include="PushMessage\EventArgs\TemplateSendJobFinishEventArgs.cs" />
+    <Compile Include="PushMessage\EventArgs\UpdateMemberCardEventArgs.cs" />
+    <Compile Include="PushMessage\EventArgs\UserConsumeCardEventArgs.cs" />
+    <Compile Include="PushMessage\EventArgs\UserDelCardEventArgs.cs" />
+    <Compile Include="PushMessage\EventArgs\UserEnterSessionFromCardEventArgs.cs" />
+    <Compile Include="PushMessage\EventArgs\UserGetCardEventArgs.cs" />
+    <Compile Include="PushMessage\EventArgs\UserGiftingCardEventArgs.cs" />
+    <Compile Include="PushMessage\EventArgs\UserPayFromPayCellEventArgs.cs" />
+    <Compile Include="PushMessage\EventArgs\UserViewCardEventArgs.cs" />
+    <Compile Include="PushMessage\Message\ImageMessage.cs" />
+    <Compile Include="PushMessage\Message\LinkMessage.cs" />
+    <Compile Include="PushMessage\EventArgs\LocationEventArgs.cs" />
+    <Compile Include="PushMessage\Message\LocationMessage.cs" />
+    <Compile Include="PushMessage\Message\MessageBase.cs" />
+    <Compile Include="PushMessage\PushObject.cs" />
+    <Compile Include="PushMessage\EventArgs\ScanEventArgs.cs" />
+    <Compile Include="PushMessage\Message\ShortVideoMessage.cs" />
+    <Compile Include="PushMessage\Message\TextMessage.cs" />
+    <Compile Include="PushMessage\Message\VideoMessage.cs" />
+    <Compile Include="PushMessage\Message\VoiceMessage.cs" />
+    <Compile Include="PushMessage\EventArgs\WithKeyEventArgs.cs" />
+    <Compile Include="Replier.cs" />
+    <Compile Include="RequestData.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AccessTokenContainer.cs" />
+    <Compile Include="WxClient.cs" />
+    <Compile Include="WeixinException.cs" />
+    <Compile Include="Models\Article.cs" />
+    <Compile Include="Models\Button.cs" />
+    <Compile Include="Models\CustomerServiceAccount.cs" />
+    <Compile Include="Models\Matchrule.cs" />
+    <Compile Include="Models\Results\AddMaterialResult.cs" />
+    <Compile Include="Models\Results\AddTemplateResult.cs" />
+    <Compile Include="Models\Results\BatchGetUserInfoResult.cs" />
+    <Compile Include="Models\Results\CreateConditionalMenuResult.cs" />
+    <Compile Include="Models\Results\GetAccessTokenResult.cs" />
+    <Compile Include="Models\Results\GetAllTemplateResult.cs" />
+    <Compile Include="Models\Results\GetCurrentSelfMenuResult.cs" />
+    <Compile Include="Models\Results\GetCustomerServiceListResult.cs" />
+    <Compile Include="Models\Results\GetIndustryResult.cs" />
+    <Compile Include="Models\Results\GetMaterialCountResult.cs" />
+    <Compile Include="Models\Results\GetMenuResult.cs" />
+    <Compile Include="Models\Results\GetNewsMaterialListResult.cs" />
+    <Compile Include="Models\Results\GetNewsMaterialResult.cs" />
+    <Compile Include="Models\Results\GetOtherMaterialListResult.cs" />
+    <Compile Include="Models\Results\GetSendStatusResult.cs" />
+    <Compile Include="Models\Results\GetUserInfoResult.cs" />
+    <Compile Include="Models\Results\GetVideoMaterialResult.cs" />
+    <Compile Include="Models\Results\MessMessageSendResult.cs" />
+    <Compile Include="Models\Results\Result.cs" />
+    <Compile Include="Models\Results\SendTemplateMessageResult.cs" />
+    <Compile Include="Models\Results\TryMatchResult.cs" />
+    <Compile Include="Models\Results\UploadImageResult.cs" />
+    <Compile Include="Models\Results\UploadMediaResult.cs" />
+    <Compile Include="Models\UserGroup.cs" />
+    <Compile Include="Models\UserInfo.cs" />
+    <Compile Include="WxReceiver.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Framework\NFlex\NFlex.csproj">
+      <Project>{af994e89-e181-4434-90df-56e52b7838d1}</Project>
+      <Name>NFlex</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

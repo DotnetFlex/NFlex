@@ -1,0 +1,91 @@
+﻿<template folder="" namespace="Demo.Domain.Models" extension="{0}Service.cs" isSingle="true"></template>
+@using System;
+using System;
+using System.Linq;
+using OShit.QuPiao.Core.Models.@(Model.DatabaseName.Replace("QuPiao_", ""));
+using OShit.Utility.Data;
+using OShit.Utility.Extensions;
+
+namespace OShit.QuPiao.Core.Services
+{
+    partial class @(Model.DatabaseName.Replace("QuPiao_", ""))Service
+    {
+@foreach (var table in Model.Tables)
+{
+        @:/// <summary>
+        @:/// 获取或设置@(table.Comment)仓储对象
+        @:/// </summary>
+        @:public IRepository<@(table.TableName),@(table.PrimaryKeys.First().DefineType)> @(table.TableName)Repository { get; set; }
+        @:
+}
+
+@foreach (var table in Model.Tables)
+{
+        @:/// <summary>
+        @:/// 获取@(table.Comment)实体数据信息查询数据集
+        @:/// </summary>
+        @:public IQueryable<@(table.TableName)> @(table.TableName.TrimEnd('s'))s
+        @:{
+            @:get { return @(table.TableName)Repository.Entities; }
+        @:}
+        @:
+}
+
+@foreach (var table in Model.Tables)
+{
+        @:#region @(table.Comment)管理
+        @:/// <summary>
+        @:/// 添加@(table.Comment)信息
+        @:/// </summary>
+        @:/// <param name="dtos">要添加的@(table.Comment)信息DTO信息</param>
+        @:/// <returns>业务操作结果</returns>
+        @:public OperationResult Add@(table.TableName.TrimEnd('s'))s(params Dtos.@(table.TableName)InputDto[] dtos)
+        @:{
+            @:dtos.CheckNotNull("dtos");
+            @:OperationResult result = @(table.TableName)Repository.Insert(dtos,
+                @:dto =>
+                @:{
+                @:},
+                @:(dto, entity) =>
+                @:{
+                    @:return entity;
+                @:});
+            @:
+            @:return result;
+        @:}
+        @:
+
+        @:/// <summary>
+        @:/// 更新@(table.Comment)信息
+        @:/// </summary>
+        @:/// <param name="dtos">包含更新信息的@(table.Comment)信息DTO信息</param>
+        @:/// <returns>业务操作结果</returns>
+        @:public OperationResult Edit@(table.TableName.TrimEnd('s'))s(params Dtos.@(table.TableName)InputDto[] dtos)
+        @:{
+            @:dtos.CheckNotNull("dtos");
+            @:OperationResult result = @(table.TableName)Repository.Update(dtos,
+                @:(dto, entity) =>
+                @:{
+                @:},
+                @:(dto, entity) => entity);
+            @:
+            @:return result;
+        @:}
+        @:
+
+        @:/// <summary>
+        @:/// 删除@(table.Comment)信息
+        @:/// </summary>
+        @:/// <param name="ids">要删除的@(table.Comment)信息编号</param>
+        @:/// <returns>业务操作结果</returns>
+        @:public OperationResult Delete@(table.TableName.TrimEnd('s'))s(params int[] ids)
+        @:{
+            @:ids.CheckNotNull("ids");
+            @:return @(table.Comment)Repository.Delete(ids);
+        @:}
+        @:
+        @:#endregion
+        @:
+}
+    }
+}

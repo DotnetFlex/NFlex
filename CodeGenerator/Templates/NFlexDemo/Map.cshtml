@@ -1,0 +1,35 @@
+﻿<template folder="Mappings" namespace="Demo.Domain.Models" extension=".cs"></template>
+@using System;
+using NFlex.Data.EF.Maps;
+
+namespace Demo.Infrastructure.Mappings
+{
+    /// <summary>
+    /// @(Model.Table.Comment)数据实体映射
+    ///</summary>
+    public class @Model.Table.TableName : AggregateRoot<@Model.Table.PrimaryKeys.First().DefineType>
+    {
+@foreach (var column in Model.Table.Columns)
+{
+        @:/// <summary>
+        @:/// @column.Comment
+        @:/// </summary>
+        @:public @column.DefineType @column.ColumnName { get; set; }
+        @:
+}
+@foreach (var children in Model.Table.Childrens)
+{
+if (children.IsRelation)
+{
+var relTable = children.ForeignKeys.FirstOrDefault(t => t.OtherTable.TableName != children.TableName).OtherTable;
+        @:public virtual ICollection<@relTable.TableName> @relTable.TableName { get; set; }
+        @:
+}
+else
+{
+        @:public virtual ICollection<@children.TableName> @children.TableName { get; set; }
+        @:
+}
+}
+    }
+}

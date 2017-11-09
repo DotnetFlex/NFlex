@@ -1,0 +1,42 @@
+﻿<template folder="Dtos" namespace="Demo.Domain.Models" fileName="{0}InputDto.cs"></template>
+@using System;
+using System;
+using OShit.Core.Data;
+
+namespace OShit.QuPiao.Core.Dtos.@(Model.DatabaseName.Replace("QuPiao_", ""))
+{
+    /// <summary>
+    /// @Model.Table.Comment
+    ///</summary>
+    public class @(Model.Table.TableName)InputDto : IInputDto<@Model.Table.PrimaryKeys.First().DefineType>
+    {
+@foreach (var column in Model.Table.AllColumns)
+{
+        @:/// <summary>
+        @:/// @column.Comment
+        @:/// </summary>
+        @:[Description("@(column.Comment)")]
+        @:public @column.DefineType @column.ColumnName { get; set; }
+        @:
+}
+@foreach (var children in Model.Table.Childrens)
+{
+if (children.IsRelation)
+{
+var relTable = children.ForeignKeys.FirstOrDefault(t => t.OtherTable.TableName != children.TableName).OtherTable;
+        @:public IList<@(relTable.TableName)InputDto> @relTable.TableName { get; set; }
+        @:
+}
+else
+{
+        @:public IList<@(children.TableName)InputDto> @children.TableName { get; set; }
+        @:
+}
+}
+@foreach(var foreignKey in Model.Table.ForeignKeys)
+{
+        @:public virtual @foreignKey.OtherTable.TableName @foreignKey.OtherTable.TableName { get; set; }
+        @:
+}
+    }
+}

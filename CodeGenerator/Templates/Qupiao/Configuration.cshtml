@@ -1,0 +1,58 @@
+﻿<template folder="Configurations" namespace="Demo.Domain.Models" fileName="{0}Configuration.cs"></template>
+@using System;
+using System;
+using OShit.QuPiao.Core.EFContext;
+using OShit.Data.Entity;
+using OShit.QuPiao.Core.Models.@(Model.DatabaseName.Replace("QuPiao_", ""));
+
+namespace OShit.QuPiao.Core.Configurations.@(Model.DatabaseName.Replace("QuPiao_", ""))
+{
+    /// <summary>
+    /// @(Model.Table.Comment)数据表映射
+    ///</summary>
+    public class @(Model.Table.TableName)_CONFIGURATION : EntityConfigurationBase<@(Model.Table.TableName),@Model.Table.PrimaryKeys.First().DefineType>
+    {
+        public @(Model.Table.TableName)_CONFIGURATION()
+        {
+            @(Model.Table.TableName)_ConfigurationAppend();
+        }
+
+        /// <summary>
+        /// 获取 相关上下文类型
+        /// </summary>
+        public override Type DbContextType
+        {
+            get { return typeof(@(Model.DatabaseName.Replace("QuPiao_", ""))DbContext); }
+        }
+
+        /// <summary>
+        /// 额外的数据映射
+        /// </summary>
+        void @(Model.Table.TableName)_ConfigurationAppend()
+        {
+@foreach (var children in Model.Table.Childrens)
+{
+if (children.IsRelation)
+{
+var relTable = children.ForeignKeys.FirstOrDefault(t => t.OtherTable.TableName != children.TableName).OtherTable;
+            @:HasMany(m => m.@(relTable.TableName))
+            @:  .WithMany(e => e.@(Model.Table.TableName))
+            @:  .Map(map =>map.MapLeftKey("@(children.ForeignKeys.FirstOrDefault(t => t.OtherTable.TableName != children.TableName).OtherTable.PrimaryKeys[0].ColumnName)"));
+            @:  .MapRightKey("@(children.ForeignKeys.FirstOrDefault(t => t.OtherTable.TableName == children.TableName).OtherTable.PrimaryKeys[0].ColumnName)")
+            @:  .ToTable("@(children.TableName)");
+            @:
+}
+else
+{
+            @:HasOptional(e => e.@(children.TableName)).WithRequired(e => e.@(Model.Table.TableName));
+            @:
+}
+}
+@foreach (var foreignKey in Model.Table.ForeignKeys)
+{
+            @:this.HasRequired(m => m.@(foreignKey.OtherTable.TableName)).WithMany(e => e.@(Model.Table.TableName)).Map(t => t.MapKey("@(foreignKey.Name)"));
+            @:
+}
+        }
+    }
+}

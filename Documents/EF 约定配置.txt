@@ -1,0 +1,65 @@
+功能
+[Data Annotations]
+Fluent API
+----------------------------------------------------------
+表名
+[Table("MyLodging")]
+modelBuilder.Entity<Lodging>().ToTable("MyLodging");
+
+列名
+[Column("MyName")]
+modelBuilder.Entity<Lodging>().Property(p => p.Name).HasColumnName("MyName");
+
+主键
+[Key]
+modelBuilder.Entity<TEntity>().HasKey(d => d.Id);
+
+外键
+[ForeignKey("DestinationId")]
+modelBuilder.Entity<Destination>().HasRequired(p => p.Destination).WithMany(p=>p.Lodgings).HasForeignKey(p => p.DestinationId);
+
+自增长
+[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+modelBuilder.Entity<Person>().Property(p => p.SocialId).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+
+长度
+[StringLength(30)]
+modelBuilder.Entity<Destination>().Property(p => p.Name).HasMaxLength(30);
+
+最小长度
+[MinLength(10)]
+
+最大长度（Fluent API 没有设置最小长度这个方法）
+[MaxLength(30)]
+modelBuilder.Entity<Destination>().Property(p => p.Country).HasMaxLength(30);
+
+非空
+[Required]/[Required(ErrorMessage="请输入描述")]
+modelBuilder.Entity<Destination>().Property(p => p.Country).IsRequired();
+
+数据类型
+[Column(TypeName = "ntext")]
+modelBuilder.Entity<Lodging>().Property(p => p.Owner).HasColumnType("ntext");
+
+忽略列映射
+[NotMapped]
+modelBuilder.Entity<Person>().Ignore(p => p.Name);
+
+忽略表映射
+[NotMapped]
+modelBuilder.Ignore<Person>();
+
+时间戳
+[Timestamp]
+modelBuilder.Entity<Lodging>().Property(p => p.TimeStamp).IsRowVersion();
+
+复杂类型
+[ComplexType]
+modelBuilder.ComplexType<Address>();
+
+属性反转
+[InverseProperty("UpdateBy")]
+
+参考：
+EF Code First 学习笔记:约定配置
+http://www.cnblogs.com/Gyoung/archive/2013/01/17/2864150.html

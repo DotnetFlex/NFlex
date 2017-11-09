@@ -1,0 +1,45 @@
+﻿<template folder="Models" namespace="Demo.Domain.Models" fileName="{0}.cs"></template>
+@using System;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using OShit.Core.Data;
+
+namespace OShit.QuPiao.Core.Models.@(Model.DatabaseName.Replace("QuPiao_", ""))
+{
+    /// <summary>
+    /// @Model.Table.Comment
+    ///</summary>
+    public class @Model.Table.TableName : EntityBase<@Model.Table.PrimaryKeys.First().DefineType>
+    {
+@foreach (var column in Model.Table.Columns)
+{
+        @:/// <summary>
+        @:/// @column.Comment
+        @:/// </summary>
+        @:[Description("@(column.Comment)")]
+        @:public @column.DefineType @column.ColumnName { get; set; }
+        @:
+}
+@foreach (var children in Model.Table.Childrens)
+{
+if (children.IsRelation)
+{
+var relTable = children.ForeignKeys.FirstOrDefault(t => t.OtherTable.TableName != children.TableName).OtherTable;
+        @:public virtual ICollection<@relTable.TableName> @relTable.TableName { get; set; }
+        @:
+}
+else
+{
+        @:public virtual ICollection<@children.TableName> @children.TableName { get; set; }
+        @:
+}
+}
+@foreach(var foreignKey in Model.Table.ForeignKeys)
+{
+        @:public virtual @foreignKey.OtherTable.TableName @foreignKey.OtherTable.TableName { get; set; }
+        @:
+}
+    }
+}

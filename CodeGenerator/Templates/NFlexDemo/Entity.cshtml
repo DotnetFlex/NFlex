@@ -1,0 +1,41 @@
+﻿<template folder="Models" namespace="Demo.Domain.Models" extension=".cs"></template>
+@using System;
+using System;
+using System.Collections.Generic;
+
+namespace Demo.Domain.Models
+{
+    /// <summary>
+    /// @Model.Table.Comment
+    ///</summary>
+    public class @Model.Table.TableName : AggregateRoot<@Model.Table.PrimaryKeys.First().DefineType>
+    {
+@foreach (var column in Model.Table.Columns)
+{
+        @:/// <summary>
+        @:/// @column.Comment
+        @:/// </summary>
+        @:public @column.DefineType @column.ColumnName { get; set; }
+        @:
+}
+@foreach (var children in Model.Table.Childrens)
+{
+if (children.IsRelation)
+{
+var relTable = children.ForeignKeys.FirstOrDefault(t => t.OtherTable.TableName != children.TableName).OtherTable;
+        @:public virtual ICollection<@relTable.TableName> @relTable.TableName { get; set; }
+        @:
+}
+else
+{
+        @:public virtual ICollection<@children.TableName> @children.TableName { get; set; }
+        @:
+}
+}
+@foreach(var foreignKey in Model.Table.ForeignKeys)
+{
+        @:public virtual @foreignKey.OtherTable.TableName @foreignKey.OtherTable.TableName { get; set; }
+        @:
+}
+    }
+}

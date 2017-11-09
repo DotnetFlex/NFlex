@@ -1,0 +1,12 @@
+微信公众号 测试号管理
+http://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login
+
+
+分词
+Jieba.Net
+全文检索
+Lucene.Net
+消息队列
+RabbitMQ
+C/S框架
+HP-Socket

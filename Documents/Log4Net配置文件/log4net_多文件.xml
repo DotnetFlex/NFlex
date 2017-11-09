@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <configSections>
+    <section name="log4net" type="log4net.Config.Log4NetConfigurationSectionHandler, log4net" />
+  </configSections>
+  <log4net xsi:noNamespaceSchemaLocation="http://csharptest.net/downloads/schema/log4net.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <root>
+      <level value="DEBUG" />
+      <appender-ref ref="DebugRollingFileAppender" />
+      <appender-ref ref="InfoRollingFileAppender" />
+      <appender-ref ref="WarningRollingFileAppender" />
+      <appender-ref ref="ErrorRollingFileAppender" />
+      <appender-ref ref="FatalRollingFileAppender" />
+    </root>
+    <appender name="DebugRollingFileAppender" type="log4net.Appender.RollingFileAppender">
+      <filter type="log4net.Filter.LevelRangeFilter">
+        <LevelMin value="Debug" />
+        <LevelMax value="Debug" />
+      </filter>
+      <file value="logs\\" />
+      <appendToFile value="true" />
+      <rollingStyle value="Date" />
+      <datePattern value="yyyy-MM-dd\\&quot;Debug.log&quot;" />
+      <staticLogFileName value="false" />
+      <lockingModel type="log4net.Appender.FileAppender+MinimalLock" />
+      <layout type="log4net.Layout.PatternLayout">
+        <conversionPattern value="%d{yyyy-MM-dd HH:mm:ss.fff} %-5p [%t]：%m%n" />
+      </layout>
+    </appender>
+    <appender name="InfoRollingFileAppender" type="log4net.Appender.RollingFileAppender">
+      <filter type="log4net.Filter.LevelRangeFilter">
+        <LevelMin value="Info" />
+        <LevelMax value="Info" />
+      </filter>
+      <file value="logs\\" />
+      <appendToFile value="true" />
+      <rollingStyle value="Date" />
+      <datePattern value="yyyy-MM-dd\\&quot;Info.log&quot;" />
+      <staticLogFileName value="false" />
+      <lockingModel type="log4net.Appender.FileAppender+MinimalLock" />
+      <layout type="log4net.Layout.PatternLayout">
+        <conversionPattern value="%d{yyyy-MM-dd HH:mm:ss.fff} %-5p [%t]：%m%n" />
+      </layout>
+    </appender>
+    <appender name="WarningRollingFileAppender" type="log4net.Appender.RollingFileAppender">
+      <filter type="log4net.Filter.LevelRangeFilter">
+        <LevelMin value="Warn" />
+        <LevelMax value="Warn" />
+      </filter>
+      <file value="logs\\" />
+      <appendToFile value="true" />
+      <rollingStyle value="Date" />
+      <datePattern value="yyyy-MM-dd\\&quot;Warning.log&quot;" />
+      <staticLogFileName value="false" />
+      <lockingModel type="log4net.Appender.FileAppender+MinimalLock" />
+      <layout type="log4net.Layout.PatternLayout">
+        <conversionPattern value="%d{yyyy-MM-dd HH:mm:ss.fff} %-5p [%t]：%m%n" />
+      </layout>
+    </appender>
+    <appender name="ErrorRollingFileAppender" type="log4net.Appender.RollingFileAppender">
+      <filter type="log4net.Filter.LevelRangeFilter">
+        <LevelMin value="Error" />
+        <LevelMax value="Error" />
+      </filter>
+      <file value="logs\\" />
+      <appendToFile value="true" />
+      <rollingStyle value="Date" />
+      <datePattern value="yyyy-MM-dd\\&quot;Error.log&quot;" />
+      <staticLogFileName value="false" />
+      <lockingModel type="log4net.Appender.FileAppender+MinimalLock" />
+      <layout type="log4net.Layout.PatternLayout">
+        <conversionPattern value="%d{yyyy-MM-dd HH:mm:ss.fff} %-5p [%t]：%m%n" />
+      </layout>
+    </appender>
+    <appender name="FatalRollingFileAppender" type="log4net.Appender.RollingFileAppender">
+      <filter type="log4net.Filter.LevelRangeFilter">
+        <LevelMin value="Fatal" />
+        <LevelMax value="Fatal" />
+      </filter>
+      <file value="logs\\" />
+      <appendToFile value="true" />
+      <rollingStyle value="Date" />
+      <datePattern value="yyyy-MM-dd\\&quot;Fatal.log&quot;" />
+      <staticLogFileName value="false" />
+      <lockingModel type="log4net.Appender.FileAppender+MinimalLock" />
+      <layout type="log4net.Layout.PatternLayout">
+        <conversionPattern value="%d{yyyy-MM-dd HH:mm:ss.fff} %-5p [%t]：%m%n" />
+      </layout>
+    </appender>
+  </log4net>
+</configuration>

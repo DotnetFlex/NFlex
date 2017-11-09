@@ -1,0 +1,14 @@
+﻿<template folder="Repositories" namespace="Demo.Domain.Models" extension=".cs"></template>
+@using System;
+using NFlex.Data.EF;
+
+namespace Demo.Infrastructure.Repositories
+{
+    /// <summary>
+    /// @(Model.Table.Comment)仓储
+    ///</summary>
+    public class @(Model.Table.TableName)Repository : Repository<@Model.Table.TableName,@Model.Table.PrimaryKeys.First().DefineType>,I@(Model.Table.TableName)Repository
+    {
+        public @(Model.Table.TableName)Repository(IDbContext dbContext) : base(dbContext) { }
+    }
+}

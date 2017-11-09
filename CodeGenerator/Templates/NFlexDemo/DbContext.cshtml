@@ -1,0 +1,25 @@
+﻿<template folder="" namespace="Demo.Domain.Models" extension=".cs" isSingle="true"></template>
+@using System;
+using Demo.Domain.Models;
+using NFlex.Data.EF;
+using System.Data.Entity;
+
+namespace Demo.Infrastructure
+{
+    public class DemoDbContext:DbContextBase
+    {
+        public DemoDbContext():base("publishdb")
+        {
+        }
+
+        static DemoDbContext()
+        {
+            Database.SetInitializer<DemoDbContext>(null);
+        }
+
+        @foreach(var table in Model.Tables)
+        {
+        @:public DbSet<@table.TableName> @table.TableName { get; set; }
+        }
+    }
+}

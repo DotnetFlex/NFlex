@@ -1,0 +1,13 @@
+﻿<template folder="IRepositories" namespace="Demo.Domain.Models" extension=".cs"></template>
+@using System;
+using NFlex.Core;
+
+namespace Demo.Domain.Repositories
+{
+    /// <summary>
+    /// @(Model.Table.Comment)仓储接口
+    ///</summary>
+    public interface I@(Model.Table.TableName)Repository : IRepository<@Model.Table.TableName,@Model.Table.PrimaryKeys.First().DefineType>
+    {
+    }
+}
