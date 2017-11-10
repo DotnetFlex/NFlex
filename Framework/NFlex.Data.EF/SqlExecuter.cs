@@ -22,7 +22,7 @@ namespace NFlex.Data.EF
         {
             _dbContext = dbContext;
         }
-
+        
         /// <summary>
         /// 执行SQL查询语句
         /// </summary>

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
 namespace NFlex
@@ -27,6 +28,10 @@ namespace NFlex
         {
             var options = new JsonSerializerSettings();
             options.ReferenceLoopHandling =ReferenceLoopHandling.Ignore;
+            options.Converters.Add(new IsoDateTimeConverter
+            {
+                DateTimeFormat = "yyyy-MM-dd HH:mm:ss"
+            });
 
             if (camelCase)
             {

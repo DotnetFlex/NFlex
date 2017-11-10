@@ -1,4 +1,5 @@
 ﻿using NFlex.Core;
+using System.Data.Entity.Validation;
 
 namespace NFlex.Data.EF
 {
@@ -13,7 +14,14 @@ namespace NFlex.Data.EF
 
         public void Commit()
         {
-            _dbContext.SaveChanges();
+            try
+            {
+                _dbContext.SaveChanges();
+            }
+            catch(DbEntityValidationException ex)
+            {
+                throw new EfValidationException(ex);
+            }
         }
     }
 }

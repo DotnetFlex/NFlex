@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="DbContextBase.cs" />
     <Compile Include="EfUnitOfWork.cs" />
+    <Compile Include="EfValidationException.cs" />
     <Compile Include="IDbContext.cs" />
     <Compile Include="Maps\IMap.cs" />
     <Compile Include="Maps\MapBase.cs" />
