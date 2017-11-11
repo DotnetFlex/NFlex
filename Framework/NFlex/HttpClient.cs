@@ -68,7 +68,7 @@ namespace NFlex
             BaseUri = new Uri(baseUrl);
         }
 
-        public HttpClient(CookieContainer cookie)
+        public HttpClient(CookieContainer cookie):this()
         {
             Cookie = cookie;
         }

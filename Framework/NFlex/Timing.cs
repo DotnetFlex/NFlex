@@ -17,6 +17,7 @@ namespace NFlex
         private Timer _timer;
         private bool _immediately = false;
         private Action _action;
+        private int _executedCount = 0;
 
         /// <summary>
         /// 构造一个定时器
@@ -33,11 +34,11 @@ namespace NFlex
         /// <param name="interval">间隔时间</param>
         /// <param name="mode">运行模式<see cref="ExecuteMode"/></param>
         /// <param name="immediately">是否要立即执行一次任务内容</param>
-        public void Start(int interval, ExecuteMode mode, bool immediately = false)
+        public void Start(int interval, ExecuteMode mode, bool immediately = false,int executeCount=0)
         {
             _immediately = immediately;
             _executeMode = mode;
-            StartInterval(interval);
+            StartInterval(interval,executeCount);
         }
 
         /// <summary>
@@ -61,12 +62,19 @@ namespace NFlex
             StartTimeList(cycelType, times.ToList());
         }
 
-        private void StartInterval(int interval)
+        private void StartInterval(int interval,int executeCount)
         {
             _timer = new Timer((obj) => {
                 if (_executeMode == ExecuteMode.Sync)
-                    _timer.Change(Timeout.Infinite, Timeout.Infinite);
+                    Stop();
 
+                if (executeCount != 0 && _executedCount >= executeCount)
+                {
+                    _timer.Change(Timeout.Infinite, Timeout.Infinite);
+                    return;
+                }
+                _executedCount++;
+                Debug.WriteLine(_executedCount);
                 _action();
 
                 if (_executeMode == ExecuteMode.Sync)
@@ -90,10 +98,11 @@ namespace NFlex
                 {
                     _timer.Change(timeSpan, timeSpan);
                 }
+
                 _action();
 
                 if (timeSpan == TimeSpan.MinValue)
-                    try { _timer.Dispose(); } catch { }
+                    try { Stop(); } catch { }
             }, null, ts, ts);
         }
 
@@ -103,7 +112,7 @@ namespace NFlex
                 .Where(t => t > DateTime.Now)
                 .Select(t => new { Index = times.IndexOf(t), Time = t })
                 .FirstOrDefault();
-
+            if (next == null) return TimeSpan.MinValue;
             DateTime nextTime = next.Time;
             if (nextTime == DateTime.MinValue) return TimeSpan.MinValue;
             var ts = (nextTime - DateTime.Now);
