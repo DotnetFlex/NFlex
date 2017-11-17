@@ -17,19 +17,18 @@ namespace NFlex.Core.Ioc
     public class IocManager
     {
         private static IWindsorContainer _container;
-        private static IEnumerable<Assembly> _assemblies;
+        private static List<Assembly> _assemblies;
         /// <summary>
         /// 需要跳过的程序集列表
         /// </summary>
         private const string AssemblySkipLoadingPattern = "^System|^mscorlib|^Microsoft|^AjaxControlToolkit|^Antlr3|^Autofac|^NSubstitute|^AutoMapper|^Castle|^ComponentArt|^CppCodeProvider|^DotNetOpenAuth|^EntityFramework|^EPPlus|^FluentValidation|^ImageResizer|^itextsharp|^log4net|^MaxMind|^MbUnit|^MiniProfiler|^Mono.Math|^MvcContrib|^Newtonsoft|^NHibernate|^nunit|^Org.Mentalis|^PerlRegex|^QuickGraph|^Recaptcha|^Remotion|^RestSharp|^Telerik|^Iesi|^TestFu|^UserAgentStringLibrary|^VJSharpCodeProvider|^WebActivator|^WebDev|^WebGrease";
 
+        public static bool IsWeb { get; set; }
 
         static IocManager()
         {
+            IsWeb = true;
             _container = new WindsorContainer().Install();
-            //_assemblies =  Reflection.GetAssemblies(AppDomain.CurrentDomain.BaseDirectory);
-            _assemblies = BuildManager.GetReferencedAssemblies().Cast<Assembly>();
-            _assemblies = FilterSystemAssembly(_assemblies);
         }
 
         public static T Create<T>()
@@ -54,7 +53,10 @@ namespace NFlex.Core.Ioc
 
         public static void Register(IDependencyRegistrar registrar)
         {
-            foreach(var ass in _assemblies)
+            if (_assemblies == null)
+                _assemblies = GetAssemblies().ToList();
+
+            foreach (var ass in GetAssemblies())
                 registrar.Register(ass,_container);
         }
 
@@ -97,9 +99,10 @@ namespace NFlex.Core.Ioc
             }
         }
 
-        private static Assembly[] FilterSystemAssembly(IEnumerable<Assembly> assemblies)
+        private static Assembly[] GetAssemblies()
         {
-            return assemblies
+           var  _assemblies = IsWeb? BuildManager.GetReferencedAssemblies().Cast<Assembly>(): AppDomain.CurrentDomain.GetAssemblies();
+            return _assemblies
                 .Where(assembly => !Regex.IsMatch(assembly.FullName, AssemblySkipLoadingPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled))
                 .ToArray();
         }

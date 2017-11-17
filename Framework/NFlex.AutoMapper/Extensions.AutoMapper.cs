@@ -107,6 +107,8 @@ namespace NFlex.AutoMapper
         private static Type GetType(object obj)
         {
             var type = obj.GetType();
+            if (type.Namespace.IndexOf("System.Data.Entity.DynamicProxies") == 0)
+                type = type.BaseType;
             if ((obj is System.Collections.IEnumerable) == false)
                 return type;
             if (type.IsArray)

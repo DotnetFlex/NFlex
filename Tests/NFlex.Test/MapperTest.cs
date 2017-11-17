@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using AutoMapper;
 
 namespace NFlex.Test
 {
@@ -13,15 +14,38 @@ namespace NFlex.Test
         [Fact]
         public void SimpleTest()
         {
-            var dto = new BookDto
+            var dto = new Book
             {
                 Description = "描述",
                 Language = "中文",
                 Price = 29.9m,
                 Title = "C++从入门到放弃"
             };
-            var book = dto.MapTo<Book>();
+            var book = dto.MapTo<BookDto>();
             Assert.Equal(dto.Title, book.Title);
+        }
+
+        [Fact]
+        public void CustomTest()
+        {
+            MapperConfig.Initialize();
+            var book = new Book
+             {
+                 Description = "描述",
+                 Language = "中文",
+                 Price = 29.9m,
+                 Title = "C++从入门到放弃"
+             };
+            var dto = book.MapTo<BookDto>();
+        }
+    }
+
+    public class BookMapper : IMap
+    {
+        public void Register(IMapperConfigurationExpression mapper)
+        {
+            mapper.CreateMap<Book, BookDto>()
+                .ForMember(t => t.Desc, o => o.MapFrom(s => s.Description));
         }
     }
 
@@ -37,7 +61,7 @@ namespace NFlex.Test
     {
         public string Title { get; set; }
         public string Language { get; set; }
-        public string Description { get; set; }
+        public string Desc { get; set; }
         public decimal Price { get; set; }
     }
 }

@@ -111,6 +111,15 @@ namespace NFlex.Data.EF
         }
 
         /// <summary>
+        /// 获取单个实体
+        /// </summary>
+        /// <param name="predicate">条件</param>
+        public TAggregateRoot Single(Expression<Func<TAggregateRoot, bool>> predicate)
+        {
+            return Set.FirstOrDefault(predicate);
+        }
+
+        /// <summary>
         /// 获取实体个数
         /// </summary>
         /// <param name="predicate">条件</param>

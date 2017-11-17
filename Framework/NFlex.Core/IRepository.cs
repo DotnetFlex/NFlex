@@ -67,6 +67,12 @@ namespace NFlex.Core
         TAggregateRoot Single(TKey id);
 
         /// <summary>
+        /// 获取单个实体
+        /// </summary>
+        /// <param name="predicate">条件</param>
+        TAggregateRoot Single(Expression<Func<TAggregateRoot, bool>> predicate);
+
+        /// <summary>
         /// 获取实体个数
         /// </summary>
         /// <param name="predicate">条件</param>

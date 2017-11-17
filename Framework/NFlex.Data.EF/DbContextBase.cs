@@ -23,12 +23,12 @@ namespace NFlex.Data.EF
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
-            var maps = new List<IMap>();
+            var maps = new List<IEntityTypeMap>();
             foreach(var ass in GetAssemblies())
             {
-                maps.AddRange(Reflection.GetTypesByInterface<IMap>(ass));
+                maps.AddRange(Reflection.GetTypesByInterface<IEntityTypeMap>(ass));
             }
-            foreach (IMap mapper in maps)
+            foreach (IEntityTypeMap mapper in maps)
                 mapper.AddTo(modelBuilder.Configurations);
         }
 
