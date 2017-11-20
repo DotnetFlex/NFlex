@@ -13,6 +13,6 @@ namespace NFlex.Core
         /// <summary>
         /// 提交更新
         /// </summary>
-        void Commit();
+        int Commit();
     }
 }

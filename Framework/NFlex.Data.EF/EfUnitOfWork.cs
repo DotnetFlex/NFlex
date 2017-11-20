@@ -12,11 +12,11 @@ namespace NFlex.Data.EF
             _dbContext = dbContext;
         }
 
-        public void Commit()
+        public int Commit()
         {
             try
             {
-                _dbContext.SaveChanges();
+                return _dbContext.SaveChanges();
             }
             catch(DbEntityValidationException ex)
             {
