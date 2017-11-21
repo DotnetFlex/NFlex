@@ -9,7 +9,9 @@ namespace NFlex
     /// </summary>
     public static class Encrypt
     {
-        public static string Sha1(string data,Encoding encoding)
+
+        #region Sha1
+        public static string Sha1(string data, Encoding encoding)
         {
             SHA1CryptoServiceProvider sha1 = new SHA1CryptoServiceProvider();
             byte[] dataToHash = encoding.GetBytes(data);
@@ -21,6 +23,19 @@ namespace NFlex
         {
             return Sha1(data, Encoding.UTF8);
         }
+        #endregion
+
+        #region HmacSha1
+        public static string HmacSha1(string data,string key,Encoding encoding)
+        {
+            using (var algorithm = KeyedHashAlgorithm.Create("HMACSHA1"))
+            {
+                algorithm.Key = encoding.GetBytes(key.ToCharArray());
+                var hashed = algorithm.ComputeHash(encoding.GetBytes(data.ToCharArray()));
+                return Convert.ToBase64String(hashed);
+            }
+        }
+        #endregion
 
         #region Md5加密
 

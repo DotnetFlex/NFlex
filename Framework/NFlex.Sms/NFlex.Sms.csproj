@@ -40,10 +40,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aliyun.cs" />
+    <Compile Include="ISms.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SmsResult.cs" />
-    <Compile Include="SmsResultCode.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NFlex\NFlex.csproj">
+      <Project>{AF994E89-E181-4434-90DF-56E52B7838D1}</Project>
+      <Name>NFlex</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

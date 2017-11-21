@@ -487,18 +487,27 @@ namespace NFlex
 
         private HttpWebResponse GetResponse(HttpWebRequest request)
         {
-            HttpWebResponse response = request.GetResponse() as HttpWebResponse;
-
-            ResponseHeaders = response.Headers;
-
-            if (AllowAutoRedirect && (response.StatusCode == HttpStatusCode.Redirect || response.StatusCode == HttpStatusCode.Found || response.StatusCode == HttpStatusCode.Moved || response.StatusCode == HttpStatusCode.MovedPermanently))
+            HttpWebResponse response = null;
+            try
             {
-                response.Close();
-                var location = ResponseHeaders[HttpResponseHeader.Location];
-                HttpWebRequest req = CreateRequest(location, "GET");
-                req.Referer = _lastRequestUrl;
-                response = GetResponse(req);
+                response = request.GetResponse() as HttpWebResponse;
             }
+            catch(WebException ex)
+            {
+                response = (HttpWebResponse)ex.Response;
+            }
+
+                ResponseHeaders = response.Headers;
+
+                if (AllowAutoRedirect && (response.StatusCode == HttpStatusCode.Redirect || response.StatusCode == HttpStatusCode.Found || response.StatusCode == HttpStatusCode.Moved || response.StatusCode == HttpStatusCode.MovedPermanently))
+                {
+                    response.Close();
+                    var location = ResponseHeaders[HttpResponseHeader.Location];
+                    HttpWebRequest req = CreateRequest(location, "GET");
+                    req.Referer = _lastRequestUrl;
+                    response = GetResponse(req);
+                }
+
 
             return response;
         }
