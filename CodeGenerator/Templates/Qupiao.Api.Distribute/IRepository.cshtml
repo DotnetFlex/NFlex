@@ -1,0 +1,15 @@
+﻿<template folder="Repositories" namespace="Demo.Domain.Models" fileName="I{0}Repository.cs"></template>
+@using System;
+using System;
+using NFlex.Core;
+using Qupiao.Domain.Models.@(Model.DatabaseName.Replace("QuPiao_", ""));
+
+namespace Qupiao.Domain.Repositories.@(Model.DatabaseName.Replace("QuPiao_", ""))
+{
+    /// <summary>
+    /// @(Model.Table.Comment)仓储接口
+    ///</summary>
+    public interface I@(Model.Table.TableName)Repository : IRepository<@Model.Table.TableName,@Model.Table.PrimaryKeys.First().DefineType>
+    {
+    }
+}

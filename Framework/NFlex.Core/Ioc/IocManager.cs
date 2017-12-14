@@ -83,7 +83,7 @@ namespace NFlex.Core.Ioc
         }
 
         private static ComponentRegistration<T> ApplyLifestyle<T>(ComponentRegistration<T> registration, DependencyLifeStyle lifeStyle)
-    where T : class
+            where T : class
         {
             switch (lifeStyle)
             {

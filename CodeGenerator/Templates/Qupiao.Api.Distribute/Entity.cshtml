@@ -1,0 +1,46 @@
+﻿<template folder="Models" namespace="Demo.Domain.Models" fileName="{0}.cs"></template>
+@using System;
+using System;
+using System.ComponentModel;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using NFlex.Core;
+
+namespace Qupiao.Domain.Models.@(Model.DatabaseName.Replace("QuPiao_", ""))
+{
+    /// <summary>
+    /// @Model.Table.Comment
+    ///</summary>
+    public class @Model.Table.TableName : AggregateRoot<@Model.Table.PrimaryKeys.First().DefineType>
+    {
+@foreach (var column in Model.Table.Columns)
+{
+        @:/// <summary>
+        @:/// @column.Comment
+        @:/// </summary>
+        @:[Description("@(column.Comment)")]
+        @:public @column.DefineType @column.ColumnName { get; set; }
+        @:
+}
+@foreach (var children in Model.Table.Childrens)
+{
+if (children.IsRelation)
+{
+var relTable = children.ForeignKeys.FirstOrDefault(t => t.OtherTable.TableName != children.TableName).OtherTable;
+        @:public virtual ICollection<@relTable.TableName> @relTable.TableName { get; set; }
+        @:
+}
+else
+{
+        @:public virtual ICollection<@children.TableName> @children.TableName { get; set; }
+        @:
+}
+}
+@foreach(var foreignKey in Model.Table.ForeignKeys)
+{
+        @:[ForeignKey("@foreignKey.ThisKey.ColumnName")]
+        @:public virtual @foreignKey.OtherTable.TableName @foreignKey.OtherTable.TableName { get; set; }
+        @:
+}
+    }
+}

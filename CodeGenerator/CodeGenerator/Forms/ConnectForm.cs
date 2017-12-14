@@ -72,10 +72,10 @@ namespace CodeGenerator
 
         private void ConnectForm_Load(object sender, EventArgs e)
         {
-            cbServerHost.Text = "192.168.1.156";
+            cbServerHost.Text = "192.168.1.175";
             cbValidateType.SelectedIndex = 1;
             txtUserName.Text = "sa";
-            txtPassword.Text = "F5H295WxcN";
+            txtPassword.Text = "1qaz@WSX";
         }
     }
 }

@@ -266,11 +266,13 @@ namespace NFlex
                     using (MemoryStream mstream = new MemoryStream())
                     {
                         byte[] buffer = new byte[1024];
-                        int count = stream.Read(buffer, 0, buffer.Length);
-                        while (count > 0)
+                        while(true)
                         {
-                            mstream.Write(buffer, 0, count);
-                            count = stream.Read(buffer, 0, buffer.Length);
+                            int read = stream.Read(buffer, 0, buffer.Length);
+                            if (read > 0)
+                                mstream.Write(buffer, 0, read);
+                            else
+                                break;
                         }
                         var data = mstream.ToArray();
                         return new HttpResult(data, encoding, response);
@@ -527,7 +529,6 @@ namespace NFlex
                 stream = new DeflateStream(responseStream, CompressionMode.Decompress);
             else
                 stream = responseStream;
-
             return stream;
         }
         #endregion

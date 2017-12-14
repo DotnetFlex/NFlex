@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -130,6 +131,53 @@ namespace NFlex.Test
                 ")
                 .Post("http://petstore.swagger.io/v2/pet")
                 .ToString();
+        }
+
+        [Fact]
+        public void IpTest()
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                var result = new HttpClient()
+                    .AddHeader("X-Forwarded-For", string.Format("{0}.{1}.{2}.{3}", Common.Random(10, 100), Common.Random(1, 255), Common.Random(1, 255), Common.Random(1, 255)))
+                    .AddHeader("Referer", "http://www.xinhuanet.com/legal/sfxzgs2017/jdrmjc.htm")
+                    .AddQuery("tk",Encrypt.Md5(Guid.NewGuid().ToString()))
+                    .AddQuery("_", Common.TimeStamp.ToString())
+                    .AddQuery("id", "2247")
+                    .AddQuery("options", "28468,")
+                    .Get("http://hd.xuan.news.cn/api/poll/vote.do?callback=jQuery112405774672465411428_1511488162226");
+            }
+        }
+
+        [Fact]
+        public void ApiTest()
+        {
+            Hashtable Parameters = new Hashtable();
+            Parameters.Add("channel", "qupiaowang");
+            Parameters.Add("source", "WECHAT");
+            Parameters.Add("key", "BEE5390FB3054D6503F4CF9EB5E77039");
+
+            StringBuilder sb = new StringBuilder();
+            ArrayList akeys = new ArrayList(Parameters.Keys);
+            akeys.Sort();
+
+            foreach (string k in akeys)
+            {
+                string v = (string)Parameters[k];
+                sb.Append(k + "=" + v + "&");
+            }
+            sb.Remove(sb.Length - 1, 1);
+            string sign = Encrypt.Md5(sb.ToString());
+
+            HttpClient client = new HttpClient();
+            var result = client
+                .AddHeader("OpenRu", "qupiaowang")
+                .AddHeader("OpenRs", "WECHAT")
+                .AddHeader("Authorization", "basic " + sign.ToUpper())
+                .AddHeader("req-source", "qupiao")
+                .Get("http://120.76.163.32:9013/api/order/5EB71B97-D3E1-49E8-95D2-A82D0147BD0A/1/10")
+                .ToString();
+            var json = Compress.GZipDecompress(result);
         }
 
         class ResultJsonDto

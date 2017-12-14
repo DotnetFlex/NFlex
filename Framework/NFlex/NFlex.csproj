@@ -57,6 +57,7 @@
     <Compile Include="Caching\ICacheProvider.cs" />
     <Compile Include="Caching\Memory\MemoryCache.cs" />
     <Compile Include="Common.cs" />
+    <Compile Include="Compress.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Dictionary.cs" />
     <Compile Include="DynamicObject.cs" />

@@ -468,7 +468,7 @@ namespace NFlex.Opens.Weixin
             al.Sort();
             string s = string.Join("", al.ToArray());
 
-            return msg.Signature == Encrypt.Sha1(s);
+            return msg.Signature == Encrypt.Sha1(s).ToLower();
         }
 
         private void PassReply(RequestData msg)

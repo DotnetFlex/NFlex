@@ -1,0 +1,17 @@
+﻿<template folder="Repositories" namespace="Demo.Domain.Models" fileName="{0}Repository.cs"></template>
+@using System;
+using System;
+using NFlex.Data.EF;
+using Qupiao.Domain.Models.@(Model.DatabaseName.Replace("QuPiao_", ""));
+using Qupiao.Domain.Repositories.@(Model.DatabaseName.Replace("QuPiao_", ""));
+
+namespace QuPiao.Infrastructure.Repositories.@(Model.DatabaseName.Replace("QuPiao_", ""))
+{
+    /// <summary>
+    /// @(Model.Table.Comment)仓储
+    ///</summary>
+    public class @(Model.Table.TableName)Repository : Repository<@Model.Table.TableName,@Model.Table.PrimaryKeys.First().DefineType>,I@(Model.Table.TableName)Repository
+    {
+        public @(Model.Table.TableName)Repository(@(Model.DatabaseName.Replace("QuPiao_", ""))DbContext dbContext) : base(dbContext) { }
+    }
+}
