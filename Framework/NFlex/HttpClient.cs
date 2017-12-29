@@ -387,14 +387,14 @@ namespace NFlex
             _fileParams.Clear();
             _formParams.Clear();
             _queryParams.Clear();
-            _headers.Clear();
+            //_headers.Clear();
             _jsonParams = "";
 
-            AddHeader("Accept", "image/jpeg, application/x-ms-application, image/gif, application/xaml+xml, image/pjpeg, application/x-ms-xbap, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*")
-                .AddHeader("Accept-Langauge", "zh-CN")
-                .AddHeader("Accept-Encoding", "gzip, deflate")
-                .AddHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E)")
-                ;
+            //AddHeader("Accept", "image/jpeg, application/x-ms-application, image/gif, application/xaml+xml, image/pjpeg, application/x-ms-xbap, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*")
+            //    .AddHeader("Accept-Langauge", "zh-CN")
+            //    .AddHeader("Accept-Encoding", "gzip, deflate")
+            //    .AddHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E)")
+            //    ;
         }
 
         private void AppendUrlData(ref string url)
@@ -499,16 +499,20 @@ namespace NFlex
                 response = (HttpWebResponse)ex.Response;
             }
 
-                ResponseHeaders = response.Headers;
+            ResponseHeaders = response.Headers;
 
-                if (AllowAutoRedirect && (response.StatusCode == HttpStatusCode.Redirect || response.StatusCode == HttpStatusCode.Found || response.StatusCode == HttpStatusCode.Moved || response.StatusCode == HttpStatusCode.MovedPermanently))
+            if (AllowAutoRedirect && (response.StatusCode == HttpStatusCode.Redirect || response.StatusCode == HttpStatusCode.Found || response.StatusCode == HttpStatusCode.Moved || response.StatusCode == HttpStatusCode.MovedPermanently))
+            {
+                response.Close();
+                var location = ResponseHeaders[HttpResponseHeader.Location];
+                foreach (Cookie c in response.Cookies)
                 {
-                    response.Close();
-                    var location = ResponseHeaders[HttpResponseHeader.Location];
-                    HttpWebRequest req = CreateRequest(location, "GET");
-                    req.Referer = _lastRequestUrl;
-                    response = GetResponse(req);
+                    AddCookie(c.Name,c.Value,c.Expires);
                 }
+                HttpWebRequest req = CreateRequest(location, "GET");
+                //req.Referer = _lastRequestUrl;
+                response = GetResponse(req);
+            }
 
 
             return response;

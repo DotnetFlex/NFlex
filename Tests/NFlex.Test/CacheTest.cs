@@ -34,18 +34,10 @@ namespace NFlex.Test
         [Fact]
         public void RedisLockTest()
         {
-            //MinusStock(); return;
-            var sw = new Stopwatch();
-            sw.Start();
-            int threadCount = 10;
-            List<Task> taskList = new List<Task>();
-            for (int i = 0; i < threadCount; i++)
-            {
-                taskList.Add(Task.Run(new Action(MinusStock)));
-            }
-            Task.WaitAll(taskList.ToArray());
-            var es = sw.Stop();
-            Debug.WriteLine(es.ToString());
+            string key = "LockTest";
+            string lockKey = "LockKeys:" + key;
+            LockKey(key);
+            ReleaseKey(key);
         }
 
         private void MinusStock()
@@ -93,7 +85,8 @@ namespace NFlex.Test
         {
             string lockKey = "LockKeys:" + key;
             var token= _lockDatabase.StringGet(lockKey);
-            _lockDatabase.LockRelease(lockKey, token);
+            if(!token.IsNullOrEmpty)
+                _lockDatabase.LockRelease(lockKey, token);
         }
     }
 }

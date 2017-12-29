@@ -16,24 +16,10 @@ namespace NFlex.Test
         [Fact]
         public void CardCreate()
         {
-            List<Test> list = new List<NFlex.Test.Test>();
-            list.Add(new Test { Type = 1, Name = "name1" });
-            list.Add(new Test { Type = 2, Name = "name2" });
-            list.Add(new Test { Type = 1, Name = "name3" });
+            var c = Common.CreateNumberId19();
+            var a="0.89265452879139".GetHashCode();
+            var b="0.280527401380486".GetHashCode();
 
-            var b = list.ToLookup(t => t.Type).Select(s =>s.Aggregate((a1,b1)=>new Test {Type=s.Key,Name=a1.Name+","+b1.Name })).ToList();
-
-            var a = list.GroupBy(t => t.Type).Select(s => new Test
-            {
-                Type = s.Key,
-                Name = string.Join(",", s.Select(t=>t.Name))
-            }).ToList();
         }
-    }
-
-    public class Test
-    {
-        public int Type { get; set; }
-        public string Name { get; set; }
     }
 }
