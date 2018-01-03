@@ -50,11 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AsciiComparer.cs" />
-    <Compile Include="Caching\CacheBase.cs" />
-    <Compile Include="Caching\CacheManager.cs" />
-    <Compile Include="Caching\ICache.cs" />
-    <Compile Include="Caching\ICacheManager.cs" />
-    <Compile Include="Caching\ICacheProvider.cs" />
+    <Compile Include="Caching\Cache.cs" />
     <Compile Include="Caching\Memory\MemoryCache.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="Compress.cs" />

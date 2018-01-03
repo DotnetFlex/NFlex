@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DbContextBase.cs" />
+    <Compile Include="EfConcurrencyException.cs" />
     <Compile Include="EfUnitOfWork.cs" />
     <Compile Include="EfValidationException.cs" />
     <Compile Include="IDbContext.cs" />

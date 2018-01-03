@@ -81,7 +81,6 @@
     <Compile Include="MapperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QRCodeTest.cs" />
-    <Compile Include="SmsTest.cs" />
     <Compile Include="TimingTest.cs" />
   </ItemGroup>
   <ItemGroup>

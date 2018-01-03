@@ -15,5 +15,10 @@ namespace Demo.Domain.Models
         
         public int Age { get; set; }
         public string Email { get; set; }
+
+        public virtual ICollection<Article> Articles { get; set; }
+
+        [Timestamp]
+        public byte[] Version { get; set; }
     }
 }

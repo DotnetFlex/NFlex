@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
@@ -147,6 +148,28 @@ namespace NFlex.Test
                     .AddQuery("options", "28468,")
                     .Get("http://hd.xuan.news.cn/api/poll/vote.do?callback=jQuery112405774672465411428_1511488162226");
             }
+        }
+
+        [Fact]
+        public void ProxyTest()
+        {
+            HttpClient client = new HttpClient("http://zhaomu.hotoos.com");
+            client.Encoding = Encoding.Default;
+            client.AddHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+            client.AddHeader("Accept-Encoding", "gzip, deflate");
+            client.AddHeader("Accept-Language", "zh-CN,zh;q=0.8,en-us;q=0.6,en;q=0.5;q=0.4");
+            client.AddHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36 MicroMessenger/6.5.2.501 NetType/WIFI WindowsWechat QBCore/3.43.691.400 QQBrowser/9.0.2524.400");
+            //ServicePointManager.SecurityProtocol=SecurityProtocolType.Tls12
+            //client.Proxy = new WebProxy("112.117.59.203", 9999);
+            var t1 = client.Get("http://zhaomu.hotoos.com/zhengwen/xiangqing.aspx?id=678&from=timeline&isappinstalled=0");
+            var result = client
+                .AddCookie("zhengwen", "id=41130&timespan=1513738317318&sign=2a9beda8442c91c524ada15bee3b101c")
+                .AddQuery("action", "vote")
+                .AddQuery("n", Common.RandomDouble())
+                .AddForm("voteid", "678")
+                .Post("http://zhaomu.hotoos.com/zhengwen/server.ashx")
+                .ToString();
+
         }
 
         [Fact]

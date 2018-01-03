@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace NFlex.Caching
 {
-    public abstract class CacheBase : ICache
+    public abstract class CacheBase2 : ICache
     {
         private readonly Dictionary<string, object> _lockHelper;
 
         public string Name { get; set; }
 
-        protected CacheBase(string name)
+        protected CacheBase2(string name)
         {
             Name = name;
         }

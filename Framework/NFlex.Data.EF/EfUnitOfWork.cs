@@ -1,5 +1,7 @@
 ﻿using NFlex.Core;
+using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
+using System.Linq;
 
 namespace NFlex.Data.EF
 {
@@ -17,6 +19,12 @@ namespace NFlex.Data.EF
             try
             {
                 return _dbContext.SaveChanges();
+            }
+            catch(DbUpdateConcurrencyException ex)
+            {
+                var entity = ex.Entries.Single();
+                entity.Reload();
+                throw new EfConcurrencyException(ex);
             }
             catch(DbEntityValidationException ex)
             {

@@ -5,11 +5,11 @@ using System.Runtime.Caching;
 
 namespace NFlex.Caching.Memory
 {
-    public class MemoryCache:CacheBase
+    public class MemoryCache:Cache
     {
         private System.Runtime.Caching.MemoryCache _memoryCache;
 
-        public MemoryCache(string name):base(name)
+        public MemoryCache(string name):base()
         {
             _memoryCache = new System.Runtime.Caching.MemoryCache(name);
         }
@@ -37,6 +37,6 @@ namespace NFlex.Caching.Memory
 
         public override void Dispose() => _memoryCache.Dispose();
 
-        public override bool ContainsKey(string key) => _memoryCache.Contains(key);
+        public override bool Contains(string key) => _memoryCache.Contains(key);
     }
 }
