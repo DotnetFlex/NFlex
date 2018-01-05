@@ -21,7 +21,7 @@ namespace NFlex.Core.Ioc
         /// <summary>
         /// 需要跳过的程序集列表
         /// </summary>
-        private const string AssemblySkipLoadingPattern = "^System|^mscorlib|^Microsoft|^AjaxControlToolkit|^Antlr3|^Autofac|^NSubstitute|^AutoMapper|^Castle|^ComponentArt|^CppCodeProvider|^DotNetOpenAuth|^EntityFramework|^EPPlus|^FluentValidation|^ImageResizer|^itextsharp|^log4net|^MaxMind|^MbUnit|^MiniProfiler|^Mono.Math|^MvcContrib|^Newtonsoft|^NHibernate|^nunit|^Org.Mentalis|^PerlRegex|^QuickGraph|^Recaptcha|^Remotion|^RestSharp|^Telerik|^Iesi|^TestFu|^UserAgentStringLibrary|^VJSharpCodeProvider|^WebActivator|^WebDev|^WebGrease";
+        private const string AssemblySkipLoadingPattern = "^System|^mscorlib|^Microsoft|^AjaxControlToolkit|^Antlr3|^Autofac|^NSubstitute|^AutoMapper|^Castle|^ComponentArt|^CppCodeProvider|^DotNetOpenAuth|^EntityFramework|^EPPlus|^FluentValidation|^ImageResizer|^itextsharp|^log4net|^MaxMind|^MbUnit|^MiniProfiler|^Mono.Math|^MvcContrib|^Newtonsoft|^NHibernate|^nunit|^Org.Mentalis|^PerlRegex|^QuickGraph|^Recaptcha|^Remotion|^RestSharp|^Telerik|^Iesi|^TestFu|^UserAgentStringLibrary|^VJSharpCodeProvider|^WebActivator|^WebDev|^WebGrease|^xunit.";
 
         public static bool IsWeb { get; set; }
 
@@ -93,7 +93,10 @@ namespace NFlex.Core.Ioc
                     return registration.LifestyleSingleton();
                 case DependencyLifeStyle.PerWebRequest:
                     return registration.LifestylePerWebRequest();
-
+                case DependencyLifeStyle.Scoped:
+                    return registration.LifestyleScoped();
+                case DependencyLifeStyle.PerThread:
+                    return registration.LifestylePerThread();
                 default:
                     return registration;
             }
@@ -101,7 +104,7 @@ namespace NFlex.Core.Ioc
 
         private static Assembly[] GetAssemblies()
         {
-           var  _assemblies = IsWeb? BuildManager.GetReferencedAssemblies().Cast<Assembly>(): AppDomain.CurrentDomain.GetAssemblies();
+            var _assemblies = IsWeb ? BuildManager.GetReferencedAssemblies().Cast<Assembly>() : Reflection.GetAssemblies(AppDomain.CurrentDomain.BaseDirectory);// AppDomain.CurrentDomain.GetAssemblies();
             return _assemblies
                 .Where(assembly => !Regex.IsMatch(assembly.FullName, AssemblySkipLoadingPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled))
                 .ToArray();

@@ -74,6 +74,7 @@
     <Compile Include="Images.cs" />
     <Compile Include="Ioc\DependencyLifeStyle.cs" />
     <Compile Include="Ioc\IPerWebRequestDependency.cs" />
+    <Compile Include="Ioc\IScopedDependency.cs" />
     <Compile Include="Ioc\ISingletonDependency.cs" />
     <Compile Include="Ioc\ITransientDependency.cs" />
     <Compile Include="Item.cs" />

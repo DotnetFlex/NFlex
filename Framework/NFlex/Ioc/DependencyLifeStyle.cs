@@ -22,8 +22,18 @@ namespace NFlex.Ioc
         Singleton,
 
         /// <summary>
-        /// 生命周期实例
+        /// 短暂
         /// </summary>
-        Transient
+        Transient,
+
+        /// <summary>
+        /// 作用域
+        /// </summary>
+        Scoped,
+
+        /// <summary>
+        /// 每线程
+        /// </summary>
+        PerThread
     }
 }

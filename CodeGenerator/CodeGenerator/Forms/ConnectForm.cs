@@ -23,13 +23,13 @@ namespace CodeGenerator
             cbValidateType.SelectedIndex = 0;
             pnlUserInfo.Enabled = false;
 
-            //cbServerHost.Text = "192.168.1.156";
-            //cbValidateType.SelectedIndex = 1;
-            //txtUserName.Text = "sa";
-            //txtPassword.Text = "F5H295WxcN";
+            cbServerHost.Text = "192.168.1.156";
+            cbValidateType.SelectedIndex = 1;
+            txtUserName.Text = "sa";
+            txtPassword.Text = "F5H295WxcN";
 
-            cbServerHost.Text = ".";
-            cbValidateType.SelectedIndex = 0;
+            //cbServerHost.Text = ".";
+            //cbValidateType.SelectedIndex = 0;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -72,10 +72,10 @@ namespace CodeGenerator
 
         private void ConnectForm_Load(object sender, EventArgs e)
         {
-            cbServerHost.Text = "192.168.1.175";
-            cbValidateType.SelectedIndex = 1;
-            txtUserName.Text = "sa";
-            txtPassword.Text = "1qaz@WSX";
+            //cbServerHost.Text = "192.168.1.175";
+            //cbValidateType.SelectedIndex = 1;
+            //txtUserName.Text = "sa";
+            //txtPassword.Text = "1qaz@WSX";
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -143,6 +144,25 @@ namespace NFlex
             }
 
             return H[m, n];    // 编辑距离  
+        }
+        #endregion
+
+        #region 将英语单词转换为复数形式
+        public static string ToPlural(string name)
+        {
+            Regex plural1 = new Regex("(?<keep>[^aeiou])y$");
+            Regex plural2 = new Regex("(?<keep>[aeiou]y)$");
+            Regex plural3 = new Regex("(?<keep>[sxzh])$");
+            Regex plural4 = new Regex("(?<keep>[^sxzhy])$");
+            if (plural1.IsMatch(name))
+                return plural1.Replace(name, "${keep}ies");
+            else if (plural2.IsMatch(name))
+                return plural2.Replace(name, "${keep}s");
+            else if (plural3.IsMatch(name))
+                return plural3.Replace(name, "${keep}es");
+            else if (plural4.IsMatch(name))
+                return plural4.Replace(name, "${keep}s");
+            return name;
         }
         #endregion
 
