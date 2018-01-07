@@ -7,41 +7,38 @@ using Castle.DynamicProxy;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using NFlex.Ioc;
+using Autofac;
+using System;
 
 namespace NFlex.Core.Ioc
 {
     public class CommonDependencyRegistrar : IDependencyRegistrar
     {
-        public void Register(Assembly ass, IWindsorContainer iocContainer)
+        public void Register(Assembly[] ass, ContainerBuilder builder)
         {
+            builder.RegisterAssemblyTypes(ass)
+                .Where(t => typeof(IPerRequestDependency).IsAssignableFrom(t) && !t.IsAbstract)
+                .AsImplementedInterfaces()
+                .InstancePerRequest()
+                .PropertiesAutowired();
 
-            iocContainer.Register(Classes.FromAssembly(ass)
-                .BasedOn<IPerWebRequestDependency>()
-                .WithService.Self()
-                .WithService.AllInterfaces()
-                .LifestylePerWebRequest()
-                );
+            builder.RegisterAssemblyTypes(ass)
+                .Where(t => typeof(IPerDependency).IsAssignableFrom(t) && !t.IsAbstract)
+                .AsImplementedInterfaces()
+                .InstancePerDependency()
+                .PropertiesAutowired();
 
-            iocContainer.Register(Classes.FromAssembly(ass)
-                .BasedOn<ITransientDependency>()
-                .WithService.Self()
-                .WithService.AllInterfaces()
-                .LifestyleTransient()
-                );
+            builder.RegisterAssemblyTypes(ass)
+                .Where(t => typeof(ISingletonDependency).IsAssignableFrom(t) && !t.IsAbstract)
+                .AsImplementedInterfaces()
+                .SingleInstance()
+                .PropertiesAutowired();
 
-            iocContainer.Register(Classes.FromAssembly(ass)
-                .BasedOn<ISingletonDependency>()
-                .WithService.Self()
-                .WithService.AllInterfaces()
-                .LifestyleSingleton()
-                );
-
-            iocContainer.Register(Classes.FromAssembly(ass)
-                .IncludeNonPublicTypes()
-                .BasedOn<IInterceptor>()
-                .WithService.Self()
-                .LifestyleTransient()
-                );
+            builder.RegisterAssemblyTypes(ass)
+                .Where(t => typeof(IPerLifetimeDependency).IsAssignableFrom(t) && !t.IsAbstract)
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope()
+                .PropertiesAutowired();
         }
     }
 }

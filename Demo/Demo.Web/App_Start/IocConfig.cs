@@ -18,9 +18,7 @@ namespace Demo.Web
         public static void Initialize()
         {
             //核心对象注入
-            IocManager.Register(new CommonDependencyRegistrar());
-            //MvcController注入
-            IocManager.Register(new ControllerDependencyRegistrar());
+            IocContainer.Initialize(true);
             //缓存注入
             //IocManager.Register<ICacheManager<MemoryCacheProvider>, CacheManager<MemoryCacheProvider>>();
             //IocManager.Register<ICacheManager<RedisCacheProvider>, CacheManager<RedisCacheProvider>>();

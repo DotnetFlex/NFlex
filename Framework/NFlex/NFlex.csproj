@@ -72,11 +72,10 @@
     <Compile Include="FilterBuilder.cs" />
     <Compile Include="HttpClient.cs" />
     <Compile Include="Images.cs" />
-    <Compile Include="Ioc\DependencyLifeStyle.cs" />
-    <Compile Include="Ioc\IPerWebRequestDependency.cs" />
-    <Compile Include="Ioc\IScopedDependency.cs" />
+    <Compile Include="Ioc\IPerLifetimeDependency.cs" />
+    <Compile Include="Ioc\IPerRequestDependency.cs" />
     <Compile Include="Ioc\ISingletonDependency.cs" />
-    <Compile Include="Ioc\ITransientDependency.cs" />
+    <Compile Include="Ioc\IPerDependency.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="JScript.cs" />
     <Compile Include="Logging\ILogger.cs" />

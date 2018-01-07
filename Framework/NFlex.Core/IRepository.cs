@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NFlex.Core
 {
-    public interface IRepository<TAggregateRoot,in TKey>: IPerWebRequestDependency where TAggregateRoot:class,IAggregateRoot<TKey>
+    public interface IRepository<TAggregateRoot,in TKey>: IPerLifetimeDependency where TAggregateRoot:class,IAggregateRoot<TKey>
     {
         /// <summary>
         /// 查找实体集合

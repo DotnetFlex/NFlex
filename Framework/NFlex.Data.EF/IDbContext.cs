@@ -5,7 +5,7 @@ using System.Data.Entity.Infrastructure;
 
 namespace NFlex.Data.EF
 {
-    public interface IDbContext: IPerWebRequestDependency
+    public interface IDbContext: IPerLifetimeDependency
     {
         Guid TraceId { get; set; }
         Database Database { get;}

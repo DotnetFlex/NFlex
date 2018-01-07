@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NFlex.Core
 {
-    public interface IService: IPerWebRequestDependency
+    public interface IService: IPerLifetimeDependency
     {
     }
 }

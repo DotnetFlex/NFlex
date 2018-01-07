@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NFlex.Core
 {
-    public interface ISqlExecuter: IPerWebRequestDependency
+    public interface ISqlExecuter: IPerLifetimeDependency
     {
         List<T> ExecuteQuery<T>(string sql);
         int ExecuteCommand(string sql);

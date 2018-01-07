@@ -1,16 +1,14 @@
 ﻿using Autofac;
-using Castle.Windsor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace NFlex.Core.Ioc
 {
-    public interface IDependencyRegistrar
+    public interface IDependencyResolverSet
     {
-        void Register(Assembly[] ass, ContainerBuilder builder);
+        void SetResolver(IContainer container);
     }
 }

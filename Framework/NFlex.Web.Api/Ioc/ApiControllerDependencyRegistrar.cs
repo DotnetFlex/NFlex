@@ -9,23 +9,24 @@ using System.Reflection;
 using Castle.MicroKernel.Registration;
 using System.Web.Http;
 using System.Web.Http.Dispatcher;
+using Autofac;
+using Autofac.Integration.WebApi;
 
 namespace NFlex.Web.Api.Ioc
 {
-    public class ApiControllerDependencyRegistrar : IDependencyRegistrar
+    public class ApiControllerDependencyRegistrar : IDependencyRegistrar, IDependencyResolverSet
     {
-        public ApiControllerDependencyRegistrar()
+
+        public void Register(Assembly[] ass, ContainerBuilder builder)
         {
-            GlobalConfiguration.Configuration.Services.Replace(typeof(IHttpControllerActivator), new ApiControllerActivator());
+            builder.RegisterApiControllers(ass).AsSelf().PropertiesAutowired();
+            builder.RegisterWebApiFilterProvider(GlobalConfiguration.Configuration);
         }
 
-        public void Register(Assembly ass, IWindsorContainer iocContainer)
+        public void SetResolver(IContainer container)
         {
-            iocContainer.Register(
-                Classes.FromAssembly(ass)
-                .BasedOn<ApiController>()
-                .LifestyleTransient()
-                );
+            var webApiResolver = new AutofacWebApiDependencyResolver(container);
+            GlobalConfiguration.Configuration.DependencyResolver = webApiResolver;
         }
     }
 }

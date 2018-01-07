@@ -341,9 +341,10 @@ namespace NFlex {
         /// <param name="assembly">在该程序集中查找</param>
         public static List<T> GetTypesByInterface<T>( Assembly assembly ) {
             var typeInterface = typeof( T );
-            return assembly.GetTypes()
-                .Where( t => typeInterface.IsAssignableFrom( t ) && t != typeInterface && t.IsAbstract == false )
-                .Select( t => CreateInstance<T>( t ) ).ToList();
+            var types = assembly.GetTypes()
+                .Where(t => typeInterface.IsAssignableFrom(t) && t != typeInterface && t.IsAbstract == false).ToList();
+            var result = types.Select(t => CreateInstance<T>(t)).ToList();
+            return result;
         }
 
         #endregion

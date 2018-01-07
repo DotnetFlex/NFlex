@@ -3,19 +3,25 @@ using Castle.Windsor;
 using System.Reflection;
 using Castle.MicroKernel.Registration;
 using System.Web.Mvc;
+using Autofac;
+using Autofac.Integration.Mvc;
+
+using System;
 
 namespace NFlex.Web.Mvc.Ioc
 {
-    public class ControllerDependencyRegistrar : IDependencyRegistrar
+    public class ControllerDependencyRegistrar : IDependencyRegistrar, IDependencyResolverSet
     {
-        public void Register(Assembly ass, IWindsorContainer iocContainer)
+        public void Register(Assembly[] ass, ContainerBuilder builder)
         {
-            iocContainer.Register(Classes.FromAssembly(ass)
-                .BasedOn<Controller>()
-                    .LifestyleTransient()
-                );
+            builder.RegisterControllers(ass).PropertiesAutowired();
+            builder.RegisterFilterProvider();
+        }
 
-            ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(iocContainer.Kernel));
+        public void SetResolver(IContainer container)
+        {
+            var resolver = new AutofacDependencyResolver(container);
+            DependencyResolver.SetResolver(resolver);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Demo.Infrastructure.Repositories
 {
     public class UserRepository:Repository<UserInfo>, IUserRepository
     {
-        public UserRepository(DemoDbContext context):base(context)
+        public UserRepository(IDbContext context):base(context)
         {
 
         }

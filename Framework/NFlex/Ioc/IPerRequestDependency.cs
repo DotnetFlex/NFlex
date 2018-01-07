@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NFlex.Ioc
 {
-    public interface IPerWebRequestDependency
+    public interface IPerRequestDependency
     {
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Demo.Domain.Models;
 using NFlex.Data.EF;
+using NFlex.Ioc;
 using System.Data.Entity;
 
 namespace Demo.Infrastructure
