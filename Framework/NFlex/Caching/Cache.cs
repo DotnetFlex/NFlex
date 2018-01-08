@@ -9,7 +9,7 @@ namespace NFlex.Caching
 {
     public abstract class Cache:IDisposable, ISingletonDependency
     {
-        private readonly Dictionary<string, object> _lockHelper;
+        private readonly Dictionary<string, object> _lockHelper=new Dictionary<string, object>();
         protected readonly string _cacheLockKeys = "CacheLockKeys";
 
         /// <summary>

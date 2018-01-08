@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace NFlex.Data.EF
 {
-    public class EfUnitOfWork:IUnitOfWork
+    public abstract class EfUnitOfWork:IUnitOfWork
     {
-        private readonly IDbContext _dbContext;
+        protected IDbContext _dbContext { get;private set; }
 
         public EfUnitOfWork(IDbContext dbContext)
         {

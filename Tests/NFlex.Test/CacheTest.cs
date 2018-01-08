@@ -1,4 +1,5 @@
-﻿using StackExchange.Redis;
+﻿using NFlex.Caching.Redis;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,81 +13,17 @@ namespace NFlex.Test
 {
     public class CacheTest
     {
-        private readonly IDatabase _database;
-        private readonly IDatabase _lockDatabase;
-        private readonly IServer _server;
-        private readonly ConnectionMultiplexer _multiplexer;
-        private List<IDatabase> _dbs=new List<IDatabase>();
-
-        public CacheTest()
-        {
-            _multiplexer = ConnectionMultiplexer.Connect("192.168.1.175:9006");
-            //_server = _multiplexer.GetServer(connectionString);
-            _lockDatabase = _multiplexer.GetDatabase(1);
-            //_database = _multiplexer.GetDatabase(1);
-            for (int i = 0; i < 5; i++)
-            {
-                _multiplexer = ConnectionMultiplexer.Connect("192.168.1.175:9006");
-                _dbs.Add(_multiplexer.GetDatabase(1));
-            }
-        }
-
         [Fact]
-        public void RedisLockTest()
+        public void AutoReleaseLockTest()
         {
-            string key = "LockTest";
-            string lockKey = "LockKeys:" + key;
-            LockKey(key);
-            ReleaseKey(key);
-        }
-
-        private void MinusStock()
-        {
-            string key = "LockTest";
-            string lockKey = "LockKeys:" + key;
-
-            var threadId = Thread.CurrentThread.ManagedThreadId.ToString().PadLeft(3, '0');
-            for (int i = 0; i < 20; i++)
+            RedisCache cache = new RedisCache("192.168.1.175:9006",1);
+            string cacheKey = "Quantity1";
+            using (var locker = cache.Lock(cacheKey))
             {
-                LockKey(key);
-                try
-                {
-                    var _db = _dbs[Common.Random(0,_dbs.Count)];
-                    var stock = _db.StringGet(key).To<int>();
-                    if (stock == 0)
-                    {
-                        Debug.WriteLine(threadId + "-- 库存不足");
-                        return;
-                    }
-                    //Thread.Sleep(5000);
-                    stock--;
-                    _db.StringSet(key, stock);
-                    Debug.WriteLine(threadId + "-- 当前库存：" + stock);
-                }
-                finally
-                {
-                    ReleaseKey(key);
-                }
+                int quantity=cache.Get<int>(cacheKey, () =>100);
+                quantity -= 2;
+                cache.Set(cacheKey, quantity);
             }
-        }
-
-        public bool LockKey(string key)
-        {
-            var token = Guid.NewGuid().ToString();
-            string lockKey = "LockKeys:" + key;
-            while (true)
-            {
-                var locked = _lockDatabase.LockTake(lockKey, token, TimeSpan.FromSeconds(10));
-                if (locked) return true;
-            }
-        }
-
-        public void ReleaseKey(string key)
-        {
-            string lockKey = "LockKeys:" + key;
-            var token= _lockDatabase.StringGet(lockKey);
-            if(!token.IsNullOrEmpty)
-                _lockDatabase.LockRelease(lockKey, token);
         }
     }
 }

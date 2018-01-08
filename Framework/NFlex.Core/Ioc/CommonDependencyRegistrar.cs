@@ -1,9 +1,6 @@
-﻿using Castle.Windsor;
-using Castle.MicroKernel.Registration;
-using System.Web.Compilation;
+﻿using System.Web.Compilation;
 using System.Linq;
 using System.Reflection;
-using Castle.DynamicProxy;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using NFlex.Ioc;
@@ -37,6 +34,27 @@ namespace NFlex.Core.Ioc
             builder.RegisterAssemblyTypes(ass)
                 .Where(t => typeof(IPerLifetimeDependency).IsAssignableFrom(t) && !t.IsAbstract)
                 .AsImplementedInterfaces()
+                .InstancePerLifetimeScope()
+                .PropertiesAutowired();
+
+
+            builder.RegisterAssemblyTypes(ass)
+                .Where(t => typeof(IPerRequestDependency).IsAssignableFrom(t) && !t.IsAbstract)
+                .InstancePerRequest()
+                .PropertiesAutowired();
+
+            builder.RegisterAssemblyTypes(ass)
+                .Where(t => typeof(IPerDependency).IsAssignableFrom(t) && !t.IsAbstract)
+                .InstancePerDependency()
+                .PropertiesAutowired();
+
+            builder.RegisterAssemblyTypes(ass)
+                .Where(t => typeof(ISingletonDependency).IsAssignableFrom(t) && !t.IsAbstract)
+                .SingleInstance()
+                .PropertiesAutowired();
+
+            builder.RegisterAssemblyTypes(ass)
+                .Where(t => typeof(IPerLifetimeDependency).IsAssignableFrom(t) && !t.IsAbstract)
                 .InstancePerLifetimeScope()
                 .PropertiesAutowired();
         }

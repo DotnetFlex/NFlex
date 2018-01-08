@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NFlex.Core
 {
-    public abstract class AggregateRoot<TKey>:EntityBase<TKey>,IAggregateRoot<TKey>
+    public abstract class AggregateRoot<TKey> : EntityBase<TKey>, IAggregateRoot<TKey>
     {
         /// <summary>
         /// 版本号(乐观锁)
@@ -18,5 +18,9 @@ namespace NFlex.Core
 
     public abstract class AggregateRoot: AggregateRoot<Guid>
     {
+        protected AggregateRoot(Guid? id=null)
+        {
+            Id = id ?? Guid.NewGuid();
+        }
     }
 }

@@ -1,11 +1,13 @@
 ﻿using Autofac;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Compilation;
 
 namespace NFlex.Core.Ioc
@@ -24,7 +26,7 @@ namespace NFlex.Core.Ioc
 
         public static void Initialize(bool isWeb)
         {
-            var assemblies = GetAssemblies(isWeb);
+            var assemblies =  GetAssemblies(isWeb);
             foreach(var ass in assemblies)
             {
                 foreach(var reg in  Reflection.GetTypesByInterface<IDependencyRegistrar>(ass))
@@ -44,18 +46,29 @@ namespace NFlex.Core.Ioc
             }
         }
 
-        public static T Create<T>() => _container.Resolve<T>();
+        public static T Create<T>() { return _container.Resolve<T>(); }
 
-        public static object Create(Type type) => _container.Resolve(type);
+        public static object Create(Type type) { return _container.Resolve(type); }
 
 
-        public static bool IsRegistred<T>() => _container.IsRegistered<T>();
+        public static bool IsRegistred<T>() { return _container.IsRegistered<T>(); }
 
-        public static bool IsRegistred(Type type) => _container.IsRegistered(type);
+        public static bool IsRegistred(Type type) { return _container.IsRegistered(type); }
 
 
         private static Assembly[] GetAssemblies(bool isWeb)
         {
+            if (!isWeb)
+            {
+                var files = Files.GetAllFiles(AppDomain.CurrentDomain.BaseDirectory).Where(t => t.EndsWith(".exe") || t.EndsWith(".dll"));
+                foreach (var file in files)
+                {
+                    var assemblyName = AssemblyName.GetAssemblyName(file);
+                    if (!AppDomain.CurrentDomain.GetAssemblies().Any(assembly => AssemblyName.ReferenceMatchesDefinition(assemblyName, assembly.GetName())))
+                        AppDomain.CurrentDomain.Load(assemblyName);
+                }
+            }
+
             var _assemblies = isWeb ? BuildManager.GetReferencedAssemblies().Cast<Assembly>() : AppDomain.CurrentDomain.GetAssemblies();
             return _assemblies
                 .Where(assembly => !Regex.IsMatch(assembly.FullName, AssemblySkipLoadingPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled))

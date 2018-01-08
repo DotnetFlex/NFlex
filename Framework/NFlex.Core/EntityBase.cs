@@ -19,5 +19,9 @@ namespace NFlex.Core
 
     public abstract class EntityBase : EntityBase<Guid>
     {
+        protected EntityBase(Guid? id=null)
+        {
+            Id = id ?? Guid.NewGuid();
+        }
     }
 }

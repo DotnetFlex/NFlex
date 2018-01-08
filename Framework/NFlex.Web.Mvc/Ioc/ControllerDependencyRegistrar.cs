@@ -1,7 +1,5 @@
 ﻿using NFlex.Core.Ioc;
-using Castle.Windsor;
 using System.Reflection;
-using Castle.MicroKernel.Registration;
 using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;

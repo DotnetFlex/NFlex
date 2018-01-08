@@ -54,16 +54,16 @@ namespace NFlex.Caching.Redis
         /// 给指定的Key加独占锁
         /// </summary>
         /// <param name="key">要加锁的Key</param>
-        public bool Lock(string key)
+        public RedisLock Lock(string key,int seconds=10)
         {
             if (null == _database)
-                return false;
+                return null;
             var token = Environment.MachineName;
             string lockKey = string.Format("{0}:{1}", _cacheLockKeys, key);
             while (true)
             {
-                var locked = _database.LockTake(lockKey, token, TimeSpan.FromSeconds(10));
-                if (locked) return true;
+                var locked = _database.LockTake(lockKey, token, TimeSpan.FromSeconds(seconds));
+                if (locked) return new RedisLock(key,this);
             }
         }
 
