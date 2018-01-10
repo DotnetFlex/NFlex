@@ -15,13 +15,24 @@ namespace NFlex.Core
         [Required]
         [Key]
         public TKey Id { get; set; }
+
+        protected EntityBase()
+        {
+            var type = Common.GetType<TKey>();
+            if (type.Name.ToLower() == "guid") Id = (TKey)(object)Guid.NewGuid();
+        }
+        protected EntityBase(TKey id)
+        {
+            Id = id;
+        }
     }
 
     public abstract class EntityBase : EntityBase<Guid>
     {
-        protected EntityBase(Guid? id=null)
+        protected EntityBase() : base() { }
+        protected EntityBase(Guid id) : base(id)
         {
-            Id = id ?? Guid.NewGuid();
+            if (Id == Guid.Empty) Id = Guid.NewGuid();
         }
     }
 }

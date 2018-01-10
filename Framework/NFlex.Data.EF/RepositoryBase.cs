@@ -62,7 +62,7 @@ namespace NFlex.Data.EF
         /// <param name="entity">实体</param>
         public void Update(TAggregateRoot entity)
         {
-            AttachIfNot(entity);
+            IsAttach(entity);
             _dbContext.Entry(entity).State = EntityState.Modified;
         }
 
@@ -70,8 +70,11 @@ namespace NFlex.Data.EF
         /// 移除实体
         /// </summary>
         /// <param name="entity">实体</param>
-        public void Remove(TAggregateRoot entity)
+        public void Remove(TAggregateRoot entity ,bool ignoreSoftDelete=false)
         {
+            if (entity is ISoftDelete && !ignoreSoftDelete)
+                (entity as ISoftDelete).IsDeleted = true;
+            else
                 Set.Remove(entity);
         }
 
@@ -79,7 +82,7 @@ namespace NFlex.Data.EF
         /// 移除实体集合
         /// </summary>
         /// <param name="entities">实体集合</param>
-        public void Remove(IEnumerable<TAggregateRoot> entities)
+        public void Remove(IEnumerable<TAggregateRoot> entities, bool ignoreSoftDelete = false)
         {
             if (entities == null) return;
 
@@ -87,17 +90,17 @@ namespace NFlex.Data.EF
             if (!list.Any()) return;
 
             foreach (var entity in list)
-                Remove(entity);
+                Remove(entity,ignoreSoftDelete);
         }
 
         /// <summary>
         /// 移除实体
         /// </summary>
         /// <param name="predicate">条件</param>
-        public void Remove(Expression<Func<TAggregateRoot, bool>> predicate)
+        public void Remove(Expression<Func<TAggregateRoot, bool>> predicate, bool ignoreSoftDelete = false)
         {
             var entities = Set.Where(predicate);
-            Remove(entities);
+            Remove(entities,ignoreSoftDelete);
         }
 
         /// <summary>
@@ -137,14 +140,14 @@ namespace NFlex.Data.EF
             return Set.Any(predicate);
         }
 
-        protected virtual bool AttachIfNot(TAggregateRoot entity)
+        protected virtual bool IsAttach(TAggregateRoot entity)
         {
             if (!Set.Local.Contains(entity))
             {
                 Set.Attach(entity);
-                return true;
+                return false;
             }
-            return false;
+            return true;
         }
     }
 

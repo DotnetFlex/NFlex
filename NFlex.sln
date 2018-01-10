@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "30 - Documents", "30 - Docu
 	ProjectSection(SolutionItems) = preProject
 		Documents\EF 约定配置.txt = Documents\EF 约定配置.txt
 		Documents\常用地址.txt = Documents\常用地址.txt
+		Documents\配置IISExpress允许外部访问.txt = Documents\配置IISExpress允许外部访问.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NFlex", "Framework\NFlex\NFlex.csproj", "{AF994E89-E181-4434-90DF-56E52B7838D1}"

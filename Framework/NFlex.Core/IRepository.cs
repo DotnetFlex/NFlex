@@ -45,19 +45,19 @@ namespace NFlex.Core
         /// 移除实体
         /// </summary>
         /// <param name="entity">实体</param>
-        void Remove(TAggregateRoot entity);
+        void Remove(TAggregateRoot entity, bool ignoreSoftDelete = false);
 
         /// <summary>
         /// 移除实体集合
         /// </summary>
         /// <param name="entities">实体集合</param>
-        void Remove(IEnumerable<TAggregateRoot> entities);
+        void Remove(IEnumerable<TAggregateRoot> entities, bool ignoreSoftDelete = false);
 
         /// <summary>
         /// 移除实体
         /// </summary>
         /// <param name="predicate">条件</param>
-        void Remove(Expression<Func<TAggregateRoot, bool>> predicate);
+        void Remove(Expression<Func<TAggregateRoot, bool>> predicate, bool ignoreSoftDelete = false);
 
         /// <summary>
         /// 获取单个实体
