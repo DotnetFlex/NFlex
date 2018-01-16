@@ -9,45 +9,52 @@ using System.Reflection;
 using NFlex.Ioc;
 using Xunit;
 using NFlex.Logging.Log4Net;
+using Castle.DynamicProxy;
+using System.Diagnostics;
+using Autofac.Extras.DynamicProxy;
+using NFlex.Core;
+using NFlex.Core.Interceptors;
+using System.ComponentModel.DataAnnotations;
+using NFlex.Data.EF;
 
 namespace NFlex.Test
 {
     public class IocTest
     {
+
         [Fact]
-        public void Test1()
+        public void AopTest()
         {
             IocContainer.Initialize(false);
-            var obj = IocContainer.Create<TestClassA>();
-            var obj2 = IocContainer.Create<TestClassB>();
+            var test = IocContainer.Create<ITestService>();
+            test.Test(new Test.dto { Name = "张三夺夺夺夺", Age = 180 });
         }
     }
-
-    public class TestClassA: IPerLifetimeDependency
-    {
-        public TestClass AClass { get; set; }
+    
+    public interface ITestService : IService {
+        void Test(dto d);
     }
-
-
-    public class TestClassB : IPerLifetimeDependency
+    public class TestService: ITestService
     {
-        public TestClass BClass { get; set; }
-    }
-
-    public class TestClass: IPerLifetimeDependency
-    {
-        public Guid TracId { get; set; }
-        public TestClass()
+        public IUnitOfWork unitofwork { get; set; }
+        public void Test(dto d)
         {
-            TracId = Guid.NewGuid();
+            //Debug.WriteLine(string.Format("测试方法:{0},{1}",d.Name,d.Age));
         }
     }
 
-    public class registerar : IDependencyRegistrar
+    public class DbContext:DbContextBase
     {
-        public void Register(Assembly[] ass, ContainerBuilder builder)
-        {
-            builder.RegisterAssemblyTypes(ass).Where(t => typeof(IPerLifetimeDependency).IsAssignableFrom(t)).InstancePerLifetimeScope().PropertiesAutowired();
-        }
+        public DbContext() : base("TicketCenter") { }
+    }
+
+    public class dto
+    {
+        [Range(18,34,ErrorMessage ="年龄应在18-34岁之间")]
+        public int Age { get; set; }
+        [StringLength(5,ErrorMessage ="姓名不能超过5个字符")]
+        public string Name { get; set; }
+
+        public string Custom { get; set; }
     }
 }

@@ -66,6 +66,12 @@ namespace NFlex.Data.EF
             _dbContext.Entry(entity).State = EntityState.Modified;
         }
 
+        public void Remove(TKey id, bool ignoreSoftDelete = false)
+        {
+            var entity = Single(id);
+            Remove(entity, ignoreSoftDelete);
+        }
+
         /// <summary>
         /// 移除实体
         /// </summary>

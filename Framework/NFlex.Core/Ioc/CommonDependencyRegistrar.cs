@@ -6,6 +6,8 @@ using System.Text.RegularExpressions;
 using NFlex.Ioc;
 using Autofac;
 using System;
+using Autofac.Extras.DynamicProxy;
+using NFlex.Core.Interceptors;
 
 namespace NFlex.Core.Ioc
 {
@@ -17,46 +19,56 @@ namespace NFlex.Core.Ioc
                 .Where(t => typeof(IPerRequestDependency).IsAssignableFrom(t) && !t.IsAbstract)
                 .AsImplementedInterfaces()
                 .InstancePerRequest()
-                .PropertiesAutowired();
+                .PropertiesAutowired()
+                .PreserveExistingDefaults();
 
             builder.RegisterAssemblyTypes(ass)
                 .Where(t => typeof(IPerDependency).IsAssignableFrom(t) && !t.IsAbstract)
                 .AsImplementedInterfaces()
                 .InstancePerDependency()
-                .PropertiesAutowired();
+                .PropertiesAutowired()
+                .PreserveExistingDefaults();
 
             builder.RegisterAssemblyTypes(ass)
                 .Where(t => typeof(ISingletonDependency).IsAssignableFrom(t) && !t.IsAbstract)
                 .AsImplementedInterfaces()
                 .SingleInstance()
-                .PropertiesAutowired();
+                .PropertiesAutowired()
+                .PreserveExistingDefaults();
 
             builder.RegisterAssemblyTypes(ass)
                 .Where(t => typeof(IPerLifetimeDependency).IsAssignableFrom(t) && !t.IsAbstract)
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope()
-                .PropertiesAutowired();
+                .PropertiesAutowired()
+                .PreserveExistingDefaults();
 
 
             builder.RegisterAssemblyTypes(ass)
                 .Where(t => typeof(IPerRequestDependency).IsAssignableFrom(t) && !t.IsAbstract)
                 .InstancePerRequest()
-                .PropertiesAutowired();
+                .PropertiesAutowired()
+                .PreserveExistingDefaults();
 
             builder.RegisterAssemblyTypes(ass)
                 .Where(t => typeof(IPerDependency).IsAssignableFrom(t) && !t.IsAbstract)
                 .InstancePerDependency()
-                .PropertiesAutowired();
+                .PropertiesAutowired()
+                .PreserveExistingDefaults();
 
             builder.RegisterAssemblyTypes(ass)
                 .Where(t => typeof(ISingletonDependency).IsAssignableFrom(t) && !t.IsAbstract)
                 .SingleInstance()
-                .PropertiesAutowired();
+                .PropertiesAutowired()
+                .PreserveExistingDefaults();
 
             builder.RegisterAssemblyTypes(ass)
                 .Where(t => typeof(IPerLifetimeDependency).IsAssignableFrom(t) && !t.IsAbstract)
                 .InstancePerLifetimeScope()
-                .PropertiesAutowired();
+                .PropertiesAutowired()
+                .PreserveExistingDefaults();
+
+            
         }
     }
 }

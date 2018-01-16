@@ -41,6 +41,8 @@ namespace NFlex.Core
         void Update(TAggregateRoot entity);
 
 
+        void Remove(TKey key, bool ignoreSoftDelete = false);
+
         /// <summary>
         /// 移除实体
         /// </summary>
