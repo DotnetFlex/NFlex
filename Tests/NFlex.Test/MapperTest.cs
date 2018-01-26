@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using AutoMapper;
+using System.Diagnostics;
 
 namespace NFlex.Test
 {
@@ -21,8 +22,14 @@ namespace NFlex.Test
                 Price = 29.9m,
                 Title = "C++从入门到放弃"
             };
-            var book = dto.MapTo<BookDto>();
-            Assert.Equal(dto.Title, book.Title);
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            for (int i = 0; i < 1000000; i++)
+            {
+                var book = dto.MapTo<BookDto>();
+            }
+            Debug.WriteLine(sw.Stop().TotalMilliseconds);
+            
         }
 
         [Fact]
@@ -58,6 +65,14 @@ namespace NFlex.Test
     }
 
     public class BookDto
+    {
+        public string Title { get; set; }
+        public string Language { get; set; }
+        public string Desc { get; set; }
+        public decimal Price { get; set; }
+    }
+
+    public class BookDto2
     {
         public string Title { get; set; }
         public string Language { get; set; }

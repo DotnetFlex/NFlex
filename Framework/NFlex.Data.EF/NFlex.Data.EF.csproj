@@ -60,6 +60,7 @@
     <Compile Include="IDbContext.cs" />
     <Compile Include="Maps\IEntityTypeMap.cs" />
     <Compile Include="Maps\EntityTypeMap.cs" />
+    <Compile Include="Pager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryBase.cs" />
     <Compile Include="SqlExecuter.cs" />

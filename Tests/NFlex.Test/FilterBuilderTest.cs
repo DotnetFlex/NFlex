@@ -9,62 +9,62 @@ namespace NFlex.Test
 {
     public class FilterBuilderTest
     {
-        [Fact]
-        public void DefaultTest()
-        {
-            var list = GetDataList();
-            FilterBuilder<UserInfo> filter = new FilterBuilder<UserInfo>();
+        //[Fact]
+        //public void DefaultTest()
+        //{
+        //    var list = GetDataList();
+        //    FilterBuilder<UserInfo> filter = new FilterBuilder<UserInfo>();
 
-            var all = list.Where(filter);
-            Assert.Equal(list.Count, all.Count());
-        }
+        //    var all = list.Where(filter);
+        //    Assert.Equal(list.Count, all.Count());
+        //}
 
-        [Fact]
-        public void SimpleTest()
-        {
-            var list = GetDataList();
-            FilterBuilder<UserInfo> filter = new FilterBuilder<UserInfo>();
-            filter.And(t => t.Age > 20);
+        //[Fact]
+        //public void SimpleTest()
+        //{
+        //    var list = GetDataList();
+        //    FilterBuilder<UserInfo> filter = new FilterBuilder<UserInfo>();
+        //    filter.And(t => t.Age > 20);
 
-            var result = list.Where(filter);
-            Assert.Equal(3, result.Count());
-        }
+        //    var result = list.Where(filter);
+        //    Assert.Equal(3, result.Count());
+        //}
 
-        [Fact]
-        public void MultTest()
-        {
-            var list = GetDataList();
-            FilterBuilder<UserInfo> filter = new FilterBuilder<UserInfo>();
-            filter.And(t => t.Age < 25);
-            filter.And(t => t.Sex == "女");
+        //[Fact]
+        //public void MultTest()
+        //{
+        //    var list = GetDataList();
+        //    FilterBuilder<UserInfo> filter = new FilterBuilder<UserInfo>();
+        //    filter.And(t => t.Age < 25);
+        //    filter.And(t => t.Sex == "女");
 
-            var result = list.Where(filter);
-            Assert.Equal(2, result.Count());
-        }
+        //    var result = list.Where(filter);
+        //    Assert.Equal(2, result.Count());
+        //}
 
-        [Fact]
-        public void MultFilterTest()
-        {
-            var list = GetDataList();
-            FilterBuilder<UserInfo> filter1 = new FilterBuilder<UserInfo>(t => t.Name == "张无忌");
-            FilterBuilder<UserInfo> filter2 = new FilterBuilder<UserInfo>(t => t.Name == "赵敏");
-            filter2.Or(filter1);
+        //[Fact]
+        //public void MultFilterTest()
+        //{
+        //    var list = GetDataList();
+        //    FilterBuilder<UserInfo> filter1 = new FilterBuilder<UserInfo>(t => t.Name == "张无忌");
+        //    FilterBuilder<UserInfo> filter2 = new FilterBuilder<UserInfo>(t => t.Name == "赵敏");
+        //    filter2.Or(filter1);
 
-            var result = list.Where(filter2);
-            Assert.Equal(2, result.Count());
-        }
+        //    var result = list.Where(filter2);
+        //    Assert.Equal(2, result.Count());
+        //}
 
-        [Fact]
-        public void MultFilterTest2()
-        {
-            var list = GetDataList();
-            FilterBuilder<UserInfo> filter1 = new FilterBuilder<UserInfo>(t => t.Name == "张无忌");
-            FilterBuilder<UserInfo> filter2 = new FilterBuilder<UserInfo>(t => t.Name == "赵敏");
-            filter2.And(filter1);
+        //[Fact]
+        //public void MultFilterTest2()
+        //{
+        //    var list = GetDataList();
+        //    FilterBuilder<UserInfo> filter1 = new FilterBuilder<UserInfo>(t => t.Name == "张无忌");
+        //    FilterBuilder<UserInfo> filter2 = new FilterBuilder<UserInfo>(t => t.Name == "赵敏");
+        //    filter2.And(filter1);
 
-            var result = list.Where(filter2);
-            Assert.Equal(0, result.Count());
-        }
+        //    var result = list.Where(filter2);
+        //    Assert.Equal(0, result.Count());
+        //}
 
         [Fact]
         public void QueryableTest()

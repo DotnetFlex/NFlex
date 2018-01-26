@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using NFlex;
+using System.Globalization;
 
 namespace NFlex.AutoMapper
 {
@@ -24,7 +25,7 @@ namespace NFlex.AutoMapper
         /// </summary>
         /// <typeparam name="TSource">源类型</typeparam>
         /// <typeparam name="TDestination">目标类型</typeparam>
-        /// <param name="source">原对象</param>
+        /// <param name="source">源对象</param>
         /// <param name="destination">目标对象</param>
         public static TDestination MapTo<TSource, TDestination>(this TSource source, TDestination destination)
         {
@@ -35,7 +36,7 @@ namespace NFlex.AutoMapper
         /// 将源对象映射到目标对象
         /// </summary>
         /// <typeparam name="TDestination">目标类型</typeparam>
-        /// <param name="source">原对象</param>
+        /// <param name="source">源对象</param>
         public static TDestination MapTo<TDestination>(this object source) where TDestination : new()
         {
             return MapTo(source, new TDestination());
@@ -44,10 +45,7 @@ namespace NFlex.AutoMapper
         /// <summary>
         /// 将源对象映射到目标对象
         /// </summary>
-        /// <typeparam name="TDestination">目标类型</typeparam>
-        /// <param name="source">原对象</param>
-        /// <param name="destination">目标对象</param>
-        private static TDestination MapTo<TDestination>(this object source, TDestination destination)
+        private static TDestination MapTo<TDestination>(object source, TDestination destination)
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
@@ -58,19 +56,28 @@ namespace NFlex.AutoMapper
             var map = GetMap(sourceType, destinationType);
             if (map != null)
                 return Mapper.Map(source, destination);
-            lock (Sync)
-            {
-                map = GetMap(sourceType, destinationType);
-                if (map != null)
-                    return Mapper.Map(source, destination);
-                var maps = Mapper.Configuration.GetAllTypeMaps();
-                Mapper.Initialize(config => {
-                    foreach (var item in maps)
-                        config.CreateMap(item.SourceType, item.DestinationType);
-                    config.CreateMap(sourceType, destinationType);
-                });
-            }
-            return Mapper.Map(source, destination);
+
+            var config = new MapperConfiguration(ctx => ctx.CreateMap(sourceType, destinationType));
+            var mapper = config.CreateMapper();
+            return mapper.Map(source, destination);
+        }
+
+        /// <summary>
+        /// 获取类型
+        /// </summary>
+        private static Type GetType(object obj)
+        {
+            var type = obj.GetType();
+            if (type.Namespace.StartsWith("System.Data.Entity.DynamicProxies"))
+                type = type.BaseType;
+            if ((obj is System.Collections.IEnumerable) == false)
+                return type;
+            if (type.IsArray)
+                return type.GetElementType();
+            var genericArgumentsTypes = type.GetTypeInfo().GetGenericArguments();
+            if (genericArgumentsTypes == null || genericArgumentsTypes.Length == 0)
+                throw new ArgumentException("泛型类型参数不能为空");
+            return genericArgumentsTypes[0];
         }
 
         /// <summary>
@@ -92,7 +99,8 @@ namespace NFlex.AutoMapper
                     }
                     catch (InvalidOperationException)
                     {
-                        Mapper.Initialize(config => {
+                        Mapper.Initialize(config =>
+                        {
                             config.CreateMap(sourceType, destinationType);
                         });
                     }
@@ -102,21 +110,13 @@ namespace NFlex.AutoMapper
         }
 
         /// <summary>
-        /// 获取类型
+        /// 清空配置
         /// </summary>
-        private static Type GetType(object obj)
+        private static void ClearConfig()
         {
-            var type = obj.GetType();
-            if (type.Namespace.IndexOf("System.Data.Entity.DynamicProxies") == 0)
-                type = type.BaseType;
-            if ((obj is System.Collections.IEnumerable) == false)
-                return type;
-            if (type.IsArray)
-                return type.GetElementType();
-            var genericArgumentsTypes = type.GetTypeInfo().GetGenericArguments();
-            if (genericArgumentsTypes == null || genericArgumentsTypes.Length == 0)
-                throw new ArgumentException("泛型类型参数不能为空");
-            return genericArgumentsTypes[0];
+            var typeMapper = typeof(Mapper).GetTypeInfo();
+            var configuration = typeMapper.GetDeclaredField("_configuration");
+            configuration.SetValue(null, null, BindingFlags.Static, null, CultureInfo.CurrentCulture);
         }
 
         /// <summary>

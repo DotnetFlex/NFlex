@@ -35,12 +35,12 @@ namespace NFlex
         }
 
 
-        public void And(Expression<Func<TEntity,bool>> expr)
+        public FilterBuilder<TEntity> And(Expression<Func<TEntity,bool>> expr)
         {
             if(_result==null)
             {
                 _result = expr;
-                return;
+                return this;
             }
             // 首先定义好一个ParameterExpression
             var candidateExpr = Expression.Parameter(typeof(TEntity), "t");
@@ -53,19 +53,21 @@ namespace NFlex
             var body = Expression.And(left, right);
 
             _result= Expression.Lambda<Func<TEntity, bool>>(body, candidateExpr);
+            return this;
         }
 
-        public void And(FilterBuilder<TEntity> filter)
+        public FilterBuilder<TEntity> And(FilterBuilder<TEntity> filter)
         {
             And(filter.GetExpression());
+            return this;
         }
 
-        public void Or(Expression<Func<TEntity, bool>> expr)
+        public FilterBuilder<TEntity> Or(Expression<Func<TEntity, bool>> expr)
         {
             if (_result == null)
             {
                 _result = expr;
-                return;
+                return this;
             }
 
             var candidateExpr = Expression.Parameter(typeof(TEntity), "t");
@@ -76,11 +78,13 @@ namespace NFlex
             var body = Expression.Or(left, right);
 
             _result= Expression.Lambda<Func<TEntity, bool>>(body, candidateExpr);
+            return this;
         }
 
-        public void Or(FilterBuilder<TEntity> filter)
+        public FilterBuilder<TEntity> Or(FilterBuilder<TEntity> filter)
         {
             Or(filter.GetExpression());
+            return this;
         }
     }
 }

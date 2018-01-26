@@ -5,6 +5,7 @@ using NFlex.Core;
 using System.Data.Entity;
 using System.Linq.Expressions;
 using EntityFramework.Extensions;
+using NFlex.Core.Query;
 
 namespace NFlex.Data.EF
 {
@@ -36,6 +37,19 @@ namespace NFlex.Data.EF
         /// <param name="predicate">条件</param>
         public IQueryable<TAggregateRoot> QueryableAsNoTracking {
             get { return Set.AsNoTracking(); }
+        }
+
+        public IPager<TAggregateRoot> Query(IQuery<TAggregateRoot> query)
+        {
+            var total = Queryable.Where(query.GetFilter()).Count();
+
+            var queryable = Queryable.Where(query.GetFilter());
+            queryable =query.Sort(queryable);
+            queryable=queryable.Skip(query.GetSkip()).Take(query.PageSize);
+
+            var pager = new Pager<TAggregateRoot>(query, total, queryable.ToList());
+
+            return pager;
         }
 
         /// <summary>

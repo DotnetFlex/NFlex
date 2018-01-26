@@ -1,4 +1,5 @@
 ﻿using NFlex.Core.Ioc;
+using NFlex.Core.Query;
 using NFlex.Ioc;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,8 @@ namespace NFlex.Core
         /// </summary>
         /// <param name="predicate">条件</param>
         IQueryable<TAggregateRoot> QueryableAsNoTracking { get; }
+
+        IPager<TAggregateRoot> Query(IQuery<TAggregateRoot> query);
 
         /// <summary>
         /// 添加实体

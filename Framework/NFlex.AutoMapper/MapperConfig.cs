@@ -26,11 +26,9 @@ namespace NFlex.AutoMapper
             foreach (var ass in _assemblies)
                 mappers.AddRange(Reflection.GetTypesByInterface<IMap>(ass));
 
-
-            //var maps = Mapper.Configuration.GetAllTypeMaps();
-            Mapper.Initialize(config=> {
-                //foreach (var item in maps)
-                //    config.CreateMap(item.SourceType, item.DestinationType);
+            
+            Mapper.Initialize(config =>
+            {
                 foreach (var mapper in mappers)
                 {
                     mapper.Register(config);

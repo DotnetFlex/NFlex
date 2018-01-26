@@ -20,9 +20,9 @@ namespace NFlex
             }
         }
 
-        public static IEnumerable<TSource> Where<TSource>(this IEnumerable<TSource> source,FilterBuilder<TSource> filter)
+        public static IQueryable<TSource> Where<TSource>(this IQueryable<TSource> source,FilterBuilder<TSource> filter)
         {
-            return source.Where(filter.Compile());
+            return source.Where(filter.GetExpression());
         }
     }
 }

@@ -16,10 +16,19 @@ namespace NFlex.Test
         [Fact]
         public void CardCreate()
         {
-            var c = Common.CreateNumberId19();
-            var a="0.89265452879139".GetHashCode();
-            var b="0.280527401380486".GetHashCode();
+            var t = TestEnum.c;
+            var t1 = (TestEnum.a | TestEnum.b);
+            var t2 = (TestEnum.c) |t;
+            var t3 = (TestEnum.c | TestEnum.d);
 
         }
+    }
+    
+    public enum TestEnum
+    {
+        a=1,
+        b=2,
+        c=4,
+        d=8
     }
 }
