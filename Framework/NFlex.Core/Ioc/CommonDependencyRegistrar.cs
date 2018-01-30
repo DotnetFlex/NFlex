@@ -1,13 +1,7 @@
-﻿using System.Web.Compilation;
-using System.Linq;
+﻿using System.Linq;
 using System.Reflection;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using NFlex.Ioc;
 using Autofac;
-using System;
-using Autofac.Extras.DynamicProxy;
-using NFlex.Core.Interceptors;
 
 namespace NFlex.Core.Ioc
 {

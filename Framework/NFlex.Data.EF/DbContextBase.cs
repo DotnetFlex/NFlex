@@ -1,11 +1,8 @@
-﻿using NFlex.Core;
-using NFlex.Data.EF.Maps;
+﻿using NFlex.Data.EF.Maps;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using System.IO;
-using System.Linq;
 using System.Reflection;
 
 namespace NFlex.Data.EF

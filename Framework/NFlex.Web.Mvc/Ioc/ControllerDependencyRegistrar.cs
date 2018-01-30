@@ -4,8 +4,6 @@ using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
 
-using System;
-
 namespace NFlex.Web.Mvc.Ioc
 {
     public class ControllerDependencyRegistrar : IDependencyRegistrar, IDependencyResolverSet

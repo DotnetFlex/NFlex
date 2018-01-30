@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NFlex.Core
+﻿namespace NFlex.Core
 {
     /// <summary>
     /// 实体

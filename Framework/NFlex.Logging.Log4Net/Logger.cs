@@ -1,6 +1,5 @@
 ﻿using log4net;
 using log4net.Config;
-using NFlex.Ioc;
 using System;
 using System.IO;
 

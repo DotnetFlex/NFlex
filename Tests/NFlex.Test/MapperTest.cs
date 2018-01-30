@@ -43,7 +43,9 @@ namespace NFlex.Test
                  Price = 29.9m,
                  Title = "C++从入门到放弃"
              };
-            var dto = book.MapTo<BookDto>();
+            var dto1 = book.MapTo<BookDto>();
+            var dtoTemp = book.MapTo<BookDto2>();
+            var dto2 = book.MapTo<BookDto>();
         }
     }
 

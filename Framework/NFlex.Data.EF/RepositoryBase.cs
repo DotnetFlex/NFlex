@@ -4,7 +4,6 @@ using System.Linq;
 using NFlex.Core;
 using System.Data.Entity;
 using System.Linq.Expressions;
-using EntityFramework.Extensions;
 using NFlex.Core.Query;
 
 namespace NFlex.Data.EF

@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Web;
-using System.Web.Compilation;
 
-namespace NFlex {
+namespace NFlex
+{
     /// <summary>
     /// 反射操作
     /// </summary>
