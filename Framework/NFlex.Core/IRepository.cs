@@ -15,12 +15,17 @@ namespace NFlex.Core
         IQueryable<TAggregateRoot> Queryable { get; }
 
         /// <summary>
+        /// 查找实体集合并贪婪加载指定属性
+        /// </summary>
+        IQueryable<TAggregateRoot> QueryableIncluding(params Expression<Func<TAggregateRoot, object>>[] includeProperties);
+
+        /// <summary>
         /// 查找实体集合
         /// </summary>
         /// <param name="predicate">条件</param>
         IQueryable<TAggregateRoot> QueryableAsNoTracking { get; }
 
-        IPager<TAggregateRoot> Query(IQuery<TAggregateRoot> query);
+        IPager<TAggregateRoot> Query(IQuery<TAggregateRoot> query, params Expression<Func<TAggregateRoot, object>>[] includeProperties);
 
         /// <summary>
         /// 添加实体
@@ -72,7 +77,7 @@ namespace NFlex.Core
         /// 获取单个实体
         /// </summary>
         /// <param name="predicate">条件</param>
-        TAggregateRoot Single(Expression<Func<TAggregateRoot, bool>> predicate);
+        TAggregateRoot Single(Expression<Func<TAggregateRoot, bool>> predicate, params Expression<Func<TAggregateRoot, object>>[] includeProperties);
 
         /// <summary>
         /// 获取实体个数

@@ -1,4 +1,6 @@
 ﻿using Castle.DynamicProxy;
+using NFlex;
+using System.Diagnostics;
 
 namespace NFlex.Core.Interceptors
 {
@@ -11,10 +13,16 @@ namespace NFlex.Core.Interceptors
                 invocation.Method,
                 invocation.Arguments
                 ).Validate();
-            
+
+#if DEBUG
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+#endif
             //验证通过时继续调用方法
             invocation.Proceed();
-
+#if DEBUG
+            Debug.WriteLine(string.Format("{0}ms ： {1}.{2}", sw.Stop().TotalMilliseconds, invocation.TargetType.Name, invocation.Method.Name));
+#endif
         }
 
         

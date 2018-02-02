@@ -12,9 +12,7 @@ namespace NFlex
         /// <param name="json">Json字符串</param>
         public static T JsonTo<T>(this string json)
         {
-            if (string.IsNullOrEmpty(json))
-                return default(T);
-            return JsonConvert.DeserializeObject<T>(json);
+            return Json.ToObject<T>(json);
         }
 
         /// <summary>
@@ -26,28 +24,7 @@ namespace NFlex
         /// <param name="isConvertSingleQuotes">是否将双引号转成单引号</param>
         public static string ToJson<T>(this T target, bool camelCase = false, bool indented = false, bool isConvertSingleQuotes = false)
         {
-            var options = new JsonSerializerSettings();
-            options.ReferenceLoopHandling =ReferenceLoopHandling.Ignore;
-            options.Converters.Add(new IsoDateTimeConverter
-            {
-                DateTimeFormat = "yyyy-MM-dd HH:mm:ss"
-            });
-
-            if (camelCase)
-            {
-                options.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            }
-
-            if (indented)
-            {
-                options.Formatting = Formatting.Indented;
-            }
-            if (target == null)
-                return "{}";
-            var result = JsonConvert.SerializeObject(target, options);
-            if (isConvertSingleQuotes)
-                result = result.Replace("\"", "'");
-            return result;
+            return Json.ToJson(target, camelCase, indented, isConvertSingleQuotes);
         }
     }
 }

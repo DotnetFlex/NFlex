@@ -14,12 +14,12 @@ namespace NFlex.Test
     public class CommonTest
     {
         [Fact]
-        public void CardCreate()
-        {
-            var t = TestEnum.c;
-            var t1 = (TestEnum.a | TestEnum.b);
-            var t2 = (TestEnum.c) |t;
-            var t3 = (TestEnum.c | TestEnum.d);
+        public void DynamicObjectToJsonTest()
+        {;
+            dynamic obj = new DynamicObject();
+            obj.Title = "aaa";
+            obj["Test"] = "Test";
+            var json = Json.ToJson(obj);
 
         }
     }

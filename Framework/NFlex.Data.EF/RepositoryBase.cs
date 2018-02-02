@@ -31,6 +31,19 @@ namespace NFlex.Data.EF
         }
 
         /// <summary>
+        /// 查找实体集合并贪婪加载指定属性
+        /// </summary>
+        public IQueryable<TAggregateRoot> QueryableIncluding(params Expression<Func<TAggregateRoot, object>>[] includeProperties)
+        {
+            var query = Queryable;
+            foreach(var includeProperty in includeProperties)
+            {
+                query = query.Include(includeProperty);
+            }
+            return query;
+        }
+
+        /// <summary>
         /// 查找实体集合
         /// </summary>
         /// <param name="predicate">条件</param>
@@ -38,11 +51,16 @@ namespace NFlex.Data.EF
             get { return Set.AsNoTracking(); }
         }
 
-        public IPager<TAggregateRoot> Query(IQuery<TAggregateRoot> query)
+        public IPager<TAggregateRoot> Query(IQuery<TAggregateRoot> query, params Expression<Func<TAggregateRoot, object>>[] includeProperties)
         {
             var total = Queryable.Where(query.GetFilter()).Count();
 
-            var queryable = Queryable.Where(query.GetFilter());
+            var queryable = Queryable;
+            foreach (var includeProperty in includeProperties)
+            {
+                queryable = queryable.Include(includeProperty);
+            }
+            queryable= queryable.Where(query.GetFilter());
             queryable =query.Sort(queryable);
             queryable=queryable.Skip(query.GetSkip()).Take(query.PageSize);
 
@@ -136,9 +154,10 @@ namespace NFlex.Data.EF
         /// 获取单个实体
         /// </summary>
         /// <param name="predicate">条件</param>
-        public TAggregateRoot Single(Expression<Func<TAggregateRoot, bool>> predicate)
+        public TAggregateRoot Single(Expression<Func<TAggregateRoot, bool>> predicate, params Expression<Func<TAggregateRoot, object>>[] includeProperties)
         {
-            return Set.FirstOrDefault(predicate);
+            var query = QueryableIncluding(includeProperties);
+            return query.FirstOrDefault(predicate);
         }
 
         /// <summary>
