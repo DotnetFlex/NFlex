@@ -1,10 +1,17 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace NFlex
 {
-    public static partial class Extensions
+    /// <summary>
+    /// XML序列化辅助类
+    /// </summary>
+    public static class Xml
     {
         /// <summary>
         /// 将对象序列化为XML字符串
@@ -30,7 +37,7 @@ namespace NFlex
         /// <summary>
         /// 从XML代码反序列化为对象
         /// </summary>
-        public static T XmlTo<T>(this string xml)
+        public static T ToObject<T>(this string xml)
         {
             if (string.IsNullOrWhiteSpace(xml))
                 return default(T);

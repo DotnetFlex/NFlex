@@ -10,6 +10,7 @@ namespace Demo.Infrastructure.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(Demo.Infrastructure.DemoDbContext context)

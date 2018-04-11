@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace NFlex.Core.Query
 {
@@ -7,11 +9,15 @@ namespace NFlex.Core.Query
         public int PageIndex { get; set; }
         public int PageSize { get; set; }
 
-        protected FilterBuilder<TEntity> Filter { get; set; }
+        protected FilterBuilder<TEntity> Filter { get; set; } = new FilterBuilder<TEntity>();
+
+        public void AppendFilter(Expression<Func<TEntity, bool>> expr)
+        {
+            Filter.And(expr);
+        }
 
         public FilterBuilder<TEntity> GetFilter()
         {
-            Filter = new FilterBuilder<TEntity>();
             BuildFilter();
             if (PageIndex < 1) PageIndex = 1;
             if (PageSize == 0) PageSize = 20;

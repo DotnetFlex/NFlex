@@ -20,12 +20,12 @@ namespace NFlex.Data.EF
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
-            var maps = new List<IEntityTypeMap>();
+            var maps = new List<IEntityMap>();
             foreach(var ass in GetAssemblies())
             {
-                maps.AddRange(Reflection.GetTypesByInterface<IEntityTypeMap>(ass));
+                maps.AddRange(Reflection.GetTypesByInterface<IEntityMap>(ass));
             }
-            foreach (IEntityTypeMap mapper in maps)
+            foreach (IEntityMap mapper in maps)
                 mapper.AddTo(modelBuilder.Configurations);
         }
 

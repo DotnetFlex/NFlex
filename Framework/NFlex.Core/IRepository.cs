@@ -25,7 +25,7 @@ namespace NFlex.Core
         /// <param name="predicate">条件</param>
         IQueryable<TAggregateRoot> QueryableAsNoTracking { get; }
 
-        IPager<TAggregateRoot> Query(IQuery<TAggregateRoot> query, params Expression<Func<TAggregateRoot, object>>[] includeProperties);
+        IPagerSelector<TAggregateRoot> Query(IQuery<TAggregateRoot> query, params Expression<Func<TAggregateRoot, object>>[] includeProperties);
 
         /// <summary>
         /// 添加实体

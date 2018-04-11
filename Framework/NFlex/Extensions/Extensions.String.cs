@@ -44,9 +44,15 @@ namespace NFlex
         /// </summary>
         public static string HtmlDecode(this string data) => HttpUtility.HtmlDecode(data);
 
-        public static string GetUrlParam(this string data,string key)
+        /// <summary>
+        /// 获取Url中的地址栏参数
+        /// </summary>
+        /// <param name="url">Url</param>
+        /// <param name="key">参数名称</param>
+        /// <returns></returns>
+        public static string GetUrlParam(this string url,string key)
         {
-            var uri = new Uri(data);
+            var uri = new Uri(url);
             var query = uri.Query.TrimStart('?');
             var paramList = query.ToList<string>("&");
             foreach(var p in paramList)
@@ -66,7 +72,7 @@ namespace NFlex
         /// <summary>
         /// 进制转换
         /// </summary>
-        /// <param name="data">要转换的字符串</param>
+        /// <param name="value">要转换的字符串</param>
         /// <param name="from">源字符串进制</param>
         /// <param name="to">目标字符串进制</param>
         /// <returns></returns>

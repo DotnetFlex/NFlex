@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace NFlex.Core.Query
 {
@@ -12,5 +14,7 @@ namespace NFlex.Core.Query
         int GetSkip();
 
         IQueryable<TEntity> Sort(IQueryable<TEntity> queryable);
+
+        void AppendFilter(Expression<Func<TEntity, bool>> expr);
     }
 }

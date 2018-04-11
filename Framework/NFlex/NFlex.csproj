@@ -16,11 +16,11 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Release\</OutputPath>
+    <OutputPath>..\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\Release\NFlex.XML</DocumentationFile>
+    <DocumentationFile>..\Debug\NFlex.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -67,9 +67,7 @@
     <Compile Include="Extensions\Extensions.Expression.cs" />
     <Compile Include="Extensions\Extensions.IEnumerable.cs" />
     <Compile Include="Extensions\Extensions.Image.cs" />
-    <Compile Include="Extensions\Extensions.Json.cs" />
     <Compile Include="Extensions\Extensions.String.cs" />
-    <Compile Include="Extensions\Extensions.Xml.cs" />
     <Compile Include="Files.cs" />
     <Compile Include="FilterBuilder.cs" />
     <Compile Include="HttpClient.cs" />
@@ -87,6 +85,7 @@
     <Compile Include="SortAttribute.cs" />
     <Compile Include="Stopwatch.cs" />
     <Compile Include="Timing.cs" />
+    <Compile Include="Xml.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

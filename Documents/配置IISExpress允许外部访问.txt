@@ -26,3 +26,5 @@ netsh http add urlacl url=http://192.168.1.1:8080/ user=everyone
 （1）控制面板（查看方式选择类别）->系统和安全->Windows防火墙，在左侧选择高级设置
 （2）右击入站规则->新建规则->端口->特定本地端口处输入8080->允许连接->3个选项全选->输入新规则名称->完成
 现在外部程序就可以访问你的IISExpress了
+
+netsh http show urlacl

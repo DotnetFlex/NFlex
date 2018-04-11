@@ -39,7 +39,7 @@ namespace NFlex.Caching.Redis
         protected override T GetCache<T>(string key)
         {
             var obj = _database.StringGet(key);
-            return obj.HasValue ? obj.ToString().JsonTo<T>() : default(T);
+            return obj.HasValue ? Json.ToObject<T>(obj.ToString()) : default(T);
         }
 
         protected override void RemoveCache(string key) => _database.KeyDelete(key);

@@ -18,5 +18,11 @@ namespace NFlex.Opens.Weixin.Test
             var imageUrl = result.url;
             //http://mmbiz.qpic.cn/mmbiz_jpg/KUuYeLldRiat5iaNRE6KKWoJAiaYNd6vUKVGm2ibJpMPw7Lmc9FAG4C4dSPueibkNroYLtyrPiaXjWibSr3ia7qQQICPrA/0
         }
+
+        [Fact]
+        public void GetList()
+        {
+            var result = client.Material.GetOtherMaterialList(MediaType.Image, 0, 19);
+        }
     }
 }

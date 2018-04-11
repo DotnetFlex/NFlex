@@ -8,6 +8,7 @@ using System.Net.Security;
 using System.Drawing;
 using System.IO;
 using System.IO.Compression;
+using System.Threading.Tasks;
 
 namespace NFlex
 {
@@ -191,7 +192,7 @@ namespace NFlex
         /// <param name="json">参数对象</param>
         public HttpClient SetJson(object json)
         {
-            _jsonParams = json.ToJson();
+            _jsonParams = Json.ToJson(json);
             return this;
         }
 
@@ -225,6 +226,13 @@ namespace NFlex
         {
             return SendRequest(url, HttpMethod.Get);
         }
+        public async Task<HttpResult> GetAsync(string url)
+        {
+            return await Task.Run<HttpResult>(() =>
+            {
+                return Get(url);
+            });
+        }
 
         public HttpResult Post(string url)
         {
@@ -245,8 +253,7 @@ namespace NFlex
         {
             return SendRequest(url, HttpMethod.Options);
         }
-
-        public HttpResult SendRequest(string url, HttpMethod method)
+                 public HttpResult SendRequest(string url, HttpMethod method)
         {
             var request = CreateRequest(url, method.ToString());
             var requestData = GetRequestData(request);
@@ -257,6 +264,7 @@ namespace NFlex
                     stream.Write(requestData, 0, requestData.Length);
                 }
             }
+
             using (HttpWebResponse response = GetResponse(request))
             {
                 Encoding encoding = GetEncoding(response.CharacterSet);
@@ -278,6 +286,11 @@ namespace NFlex
                     }
                 }
             }
+        }
+
+        public async Task<HttpResult> SendRequestAsync(string url, HttpMethod method)
+        {
+            return SendRequest(url, method);
         }
         #endregion
 
@@ -362,6 +375,7 @@ namespace NFlex
             if (!string.IsNullOrEmpty(_jsonParams))
             {
                 requestData = GetJsonData(request);
+                request.ContentType = "application/json";
             }
             else
             {
@@ -658,7 +672,7 @@ namespace NFlex
         /// <returns></returns>
         public T JsonTo<T>()
         {
-            return ResponseData.JsonTo<T>(Encoding);
+            return Json.ToObject<T>(ResponseData.ToString(Encoding));
         }
 
         /// <summary>
@@ -668,7 +682,7 @@ namespace NFlex
         /// <returns></returns>
         public T XmlTo<T>()
         {
-            return ResponseData.XmlTo<T>(Encoding);
+            return Xml.ToObject<T>(ResponseData.ToString(Encoding));
         }
 
         public void Dispose()

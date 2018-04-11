@@ -142,6 +142,11 @@ namespace NFlex
         #endregion
 
         #region 将英语单词转换为复数形式
+        /// <summary>
+        /// 将英语单词转换为复数形式
+        /// </summary>
+        /// <param name="name">英语单词</param>
+        /// <returns></returns>
         public static string ToPlural(string name)
         {
             Regex plural1 = new Regex("(?<keep>[^aeiou])y$");

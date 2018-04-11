@@ -46,12 +46,11 @@ namespace NFlex.Data.EF
         /// <summary>
         /// 查找实体集合
         /// </summary>
-        /// <param name="predicate">条件</param>
         public IQueryable<TAggregateRoot> QueryableAsNoTracking {
             get { return Set.AsNoTracking(); }
         }
 
-        public IPager<TAggregateRoot> Query(IQuery<TAggregateRoot> query, params Expression<Func<TAggregateRoot, object>>[] includeProperties)
+        public IPagerSelector<TAggregateRoot> Query(IQuery<TAggregateRoot> query, params Expression<Func<TAggregateRoot, object>>[] includeProperties)
         {
             var total = Queryable.Where(query.GetFilter()).Count();
 
@@ -64,7 +63,7 @@ namespace NFlex.Data.EF
             queryable =query.Sort(queryable);
             queryable=queryable.Skip(query.GetSkip()).Take(query.PageSize);
 
-            var pager = new Pager<TAggregateRoot>(query, total, queryable.ToList());
+            var pager = new PagerSelector<TAggregateRoot>(query, total, queryable);
 
             return pager;
         }
@@ -166,7 +165,7 @@ namespace NFlex.Data.EF
         /// <param name="predicate">条件</param>
         public int Count(Expression<Func<TAggregateRoot, bool>> predicate = null)
         {
-            return Set.Where(predicate).Count();
+            return predicate == null ? Set.Count() : Set.Where(predicate).Count();
         }
 
         /// <summary>

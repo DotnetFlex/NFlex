@@ -29,6 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Release\NFlex.Core.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
@@ -89,6 +90,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\BaseQuery.cs" />
     <Compile Include="Query\IPager.cs" />
+    <Compile Include="Query\IPagerSelector.cs" />
     <Compile Include="Query\IQuery.cs" />
     <Compile Include="ValidationAttributes\RequiredDateTimeAttribute.cs" />
     <Compile Include="ValidationAttributes\RequiredGuidAttribute.cs" />

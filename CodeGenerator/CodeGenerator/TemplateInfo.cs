@@ -25,7 +25,7 @@ namespace CodeGenerator
             {
                 var configStr = content.Substring(0, content.IndexOf("</template>\r\n") + "</template>\r\n".Length);
                 info.Content = content.Replace(configStr, "");
-                info.Config = configStr.XmlTo<TemplateConfig>();
+                info.Config = Xml.ToObject< TemplateConfig>(configStr);
                 info.Config.fileName = string.IsNullOrEmpty(info.Config.fileName) ? ".cs" : info.Config.fileName;
                 return info;
             }

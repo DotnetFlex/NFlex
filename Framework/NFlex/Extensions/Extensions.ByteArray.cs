@@ -6,17 +6,31 @@ namespace NFlex
 {
     public static partial class Extensions
     {
+        /// <summary>
+        /// 将字节数组转换为字符串
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <param name="encoding">字符编码</param>
         public static string ToString(this byte[] bytes,Encoding encoding)
         {
             return encoding.GetString(bytes);
         }
 
+
+        /// <summary>
+        /// 将字节数组转换为 Stream
+        /// </summary>
         public static MemoryStream ToStream(this byte[] bytes)
         {
             MemoryStream stream = new MemoryStream(bytes);
             return stream;
         }
 
+        /// <summary>
+        /// 将字节数组转换为文件
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <param name="fileName">要保存文件的绝对地址</param>
         public static void ToFile(this byte[] bytes,string fileName)
         {
             using (FileStream stream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.Write))
@@ -24,24 +38,15 @@ namespace NFlex
                 stream.Write(bytes, 0, bytes.Length);
             }
         }
-        
+
+        /// <summary>
+        /// 将字节数组转换为 Image
+        /// </summary>
         public static Image ToImage(this byte[] bytes)
         {
             MemoryStream stream = ToStream(bytes);
             Image img = Image.FromStream(stream);
             return img;
-        }
-
-        public static T JsonTo<T>(this byte[] bytes,Encoding encoding)
-        {
-            string jsonStr = ToString(bytes,encoding);
-            return jsonStr.JsonTo<T>();
-        }
-
-        public static T XmlTo<T>(this byte[] bytes, Encoding encoding)
-        {
-            string xml = ToString(bytes, encoding);
-            return xml.XmlTo<T>();
         }
     }
 }

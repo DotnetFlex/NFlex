@@ -18,7 +18,7 @@ namespace NFlex.Opens.Weixin
         public T ConvertBodyTo<T>() where T : PushMessage.PushObject
         {
             if (string.IsNullOrEmpty(ReceiveBody)) return null;
-            return ReceiveBody.XmlTo<T>();
+            return Xml.ToObject<T>(ReceiveBody);
         }
     }
 }

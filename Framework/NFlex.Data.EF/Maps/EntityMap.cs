@@ -5,9 +5,9 @@ using System.Data.Entity.ModelConfiguration.Configuration;
 
 namespace NFlex.Data.EF.Maps
 {
-    public abstract class EntityTypeMap<TEntity, TKey> : EntityTypeConfiguration<TEntity>, IEntityTypeMap where TEntity : class, IEntity
+    public abstract class EntityMap<TEntity, TKey> : EntityTypeConfiguration<TEntity>, IEntityMap where TEntity : class, IEntity
     {
-        protected EntityTypeMap()
+        protected EntityMap()
         {
             MapTable();
             MapKey();
@@ -16,6 +16,9 @@ namespace NFlex.Data.EF.Maps
             MapAssociations();
         }
 
+        /// <summary>
+        /// 映射表名
+        /// </summary>
         protected virtual void MapTable() { }
         protected virtual void MapKey() { }
         protected virtual void MapVersion() { }
@@ -28,6 +31,6 @@ namespace NFlex.Data.EF.Maps
         }
     }
 
-    public abstract class EntityTypeMap<TEntity>:EntityTypeMap<TEntity,Guid> where TEntity : class, IEntity
+    public abstract class EntityMap<TEntity>:EntityMap<TEntity,Guid> where TEntity : class, IEntity
     { }
 }

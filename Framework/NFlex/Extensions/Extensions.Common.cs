@@ -32,14 +32,12 @@ namespace NFlex
             }
         }
 
-        public static string ToBase64String(this byte[] data)
+        /// <summary>
+        /// 将对象序列化为 Json 字符串
+        /// </summary>
+        public static string ToJson<T>(this T obj)
         {
-            return Convert.ToBase64String(data);
-        }
-
-        public static DateTime TimestampToDateTime(this int timestamp)
-        {
-            return Common.UnixEraTime.AddSeconds(timestamp);
+            return Json.ToJson(obj);
         }
     }
 }

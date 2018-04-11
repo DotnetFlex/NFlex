@@ -35,7 +35,7 @@ namespace Demo.Web.Controllers
         public ActionResult Index()
         {
             var userId = Guid.Parse("4232581B-35CF-4528-AF05-7A5BDB9F649E");
-            //var userInfo = _userRepository.Single(userId);
+            var userInfo = _userRepository.Single(userId);
             //userInfo.Age = 18;
 
             //DemoDbContext context = new DemoDbContext();

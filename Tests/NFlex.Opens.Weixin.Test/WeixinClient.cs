@@ -42,7 +42,7 @@ namespace NFlex.Opens.Weixin.Test
         {
             public override string GetToken()
             {
-                return "Fcl2ccCfI54nsTcUf2r2rFcr-em7zFsBUDQMPk_45z_h5wUcCeXqPdtq97PIkAxNtFC88dZIUNEc6HJz_eukMNX4kps25D9Atj6m-oP-kg63zxY3590u0YaiXDFSmevJIPLcAHANUQ";
+                return "7_vwttESBcR7gsZFJoSDoQt92Nvt7F1bKwtywmClz5JIvqd4PzDcrQYm60xl2Al_KgFlTs5-fkGG9V_7dgyGR2xnStU5eAL2XQknlxasVKRCaFU3pzGEoD0I33mgo8unRuLAf7m-T3OrSMXH-dJEAeAFAZUQ";
             }
         }
     }

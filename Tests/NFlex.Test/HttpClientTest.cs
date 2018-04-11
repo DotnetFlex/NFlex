@@ -203,6 +203,14 @@ namespace NFlex.Test
             var json = Compress.GZipDecompress(result);
         }
 
+        [Fact]
+        public void AsyncTest()
+        {
+            HttpClient client = new HttpClient();
+            var result = client.GetAsync("http://www.baidu.com").Result.ToString();
+
+        }
+
         class ResultJsonDto
         {
             public string Status { get; set; }

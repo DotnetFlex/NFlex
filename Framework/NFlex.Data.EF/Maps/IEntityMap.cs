@@ -2,7 +2,7 @@
 
 namespace NFlex.Data.EF.Maps
 {
-    public interface IEntityTypeMap
+    public interface IEntityMap
     {
         void AddTo(ConfigurationRegistrar registrar);
     }

@@ -16,19 +16,13 @@ namespace NFlex.Test
         [Fact]
         public void DynamicObjectToJsonTest()
         {;
-            dynamic obj = new DynamicObject();
-            obj.Title = "aaa";
-            obj["Test"] = "Test";
-            var json = Json.ToJson(obj);
+            var a = new A();
 
         }
     }
     
-    public enum TestEnum
+    public class A
     {
-        a=1,
-        b=2,
-        c=4,
-        d=8
+        public string Name { get; set; }
     }
 }
