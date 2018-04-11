@@ -14,7 +14,6 @@ namespace NFlex.Test
         public void GetTest()
         {
             var client = new HttpClient();
-            var result = client.Get("https://www.baidu.com").ToString();
         }
 
         [Fact]
