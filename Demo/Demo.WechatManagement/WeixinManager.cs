@@ -70,7 +70,7 @@ namespace Demo.WechatManagement
                 return;
             }
 
-            
+            #region 转换商品链接
             var item = items.First();
             var adzones = AlimamaClientFactory.Instance.GetAdzones(item.auctionId);
             var adzone = adzones.webAdzones.FirstOrDefault();
@@ -86,6 +86,8 @@ namespace Demo.WechatManagement
                 item.zkPrice - item.couponAmount,
                 urlInfo.couponShortLinkUrl ?? urlInfo.shortLinkUrl
                 );
+            #endregion
+
             replier.ReplyText(msg);
         }
 

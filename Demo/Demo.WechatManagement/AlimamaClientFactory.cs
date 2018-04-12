@@ -17,7 +17,7 @@ namespace Demo.WechatManagement
                 if(_instance==null)
                 {
                     _instance = new AlimamaClient();
-                    _instance.Login("lingcnet", "ljzlingc.223");
+                    _instance.Login("账号", "密码");
                 }
                 return _instance;
             }

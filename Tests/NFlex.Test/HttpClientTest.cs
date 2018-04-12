@@ -172,37 +172,6 @@ namespace NFlex.Test
         }
 
         [Fact]
-        public void ApiTest()
-        {
-            Hashtable Parameters = new Hashtable();
-            Parameters.Add("channel", "qupiaowang");
-            Parameters.Add("source", "WECHAT");
-            Parameters.Add("key", "BEE5390FB3054D6503F4CF9EB5E77039");
-
-            StringBuilder sb = new StringBuilder();
-            ArrayList akeys = new ArrayList(Parameters.Keys);
-            akeys.Sort();
-
-            foreach (string k in akeys)
-            {
-                string v = (string)Parameters[k];
-                sb.Append(k + "=" + v + "&");
-            }
-            sb.Remove(sb.Length - 1, 1);
-            string sign = Encrypt.Md5(sb.ToString());
-
-            HttpClient client = new HttpClient();
-            var result = client
-                .AddHeader("OpenRu", "qupiaowang")
-                .AddHeader("OpenRs", "WECHAT")
-                .AddHeader("Authorization", "basic " + sign.ToUpper())
-                .AddHeader("req-source", "qupiao")
-                .Get("http://120.76.163.32:9013/api/order/5EB71B97-D3E1-49E8-95D2-A82D0147BD0A/1/10")
-                .ToString();
-            var json = Compress.GZipDecompress(result);
-        }
-
-        [Fact]
         public void AsyncTest()
         {
             HttpClient client = new HttpClient();

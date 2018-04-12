@@ -100,12 +100,8 @@ namespace NFlex.Opens.Taobao
 
             if (html.IndexOf("<title>页面跳转中</title>") == -1)
                 return false;
-            Thread.Sleep(500);
+
             var urls = GetUrls(html);
-            //Client.AddHeader("Referer", "https://login.taobao.com/member/login.jhtml?redirectURL=http%3A%2F%2Fwww.alimama.com")
-            //    .Get(urls[3]);
-            //Client.AddHeader("Referer", "https://login.taobao.com/member/login.jhtml?redirectURL=http%3A%2F%2Fwww.alimama.com")
-            //    .Get(urls[4]);
             Client.AddHeader("Referer", "https://login.taobao.com/member/login.jhtml?redirectURL=http%3A%2F%2Fwww.alimama.com")
                 .Get(urls[1]);
 
