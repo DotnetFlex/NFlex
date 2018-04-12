@@ -12,14 +12,6 @@ namespace NFlex.Opens.Weixin.Test
         {
             get
             {
-                var accountList = new List<AccountInfo>
-                {
-                    new AccountInfo("wx27d1fff72840c691","8a83383d96abdfb811525c99a220bd4a"),
-                    //Test
-                    new AccountInfo("wx76a6328ff702de4e","004a2eaffd4babb1da8ed20931c9f28a")
-                };
-                var account = accountList[1];
-
                 if (_client == null)
                     _client = new WxClient("https://api.weixin.qq.com", new TokenContainer());//new DefaultTokenContainer("https://api.weixin.qq.com", account.OpenId, account.Secret));
                 return _client;

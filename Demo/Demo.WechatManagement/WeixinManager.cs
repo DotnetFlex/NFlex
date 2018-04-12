@@ -57,7 +57,36 @@ namespace Demo.WechatManagement
 
         private void Receiver_ReceiveTextMessage(TextMessage message, Replier replier)
         {
-            replier.ReplyText("你发送的："+message.Content);
+            if(!message.Content.IsUrl())
+            {
+                replier.ReplyText("不要发这些没用的，有本事发个淘宝的商品链接试试");
+                return;
+            }
+
+            var items = AlimamaClientFactory.Instance.SearchItems(message.Content);
+            if(items.Count==0)
+            {
+                replier.ReplyText("没有找到此商品的优惠链接");
+                return;
+            }
+
+            
+            var item = items.First();
+            var adzones = AlimamaClientFactory.Instance.GetAdzones(item.auctionId);
+            var adzone = adzones.webAdzones.FirstOrDefault();
+            var adzoneId = adzone.id;
+            var siteId = adzone.sub.FirstOrDefault().id;
+            var urlInfo = AlimamaClientFactory.Instance.CreatePromotUrl(items[0].auctionId, siteId, adzoneId);
+
+            string msg = string.Format("{0}\r\n{1}\r\n\r\n原价：{2}元\r\n优惠券：{3}\r\n券后价：{4}\r\n\r\n{5}\r\n【长按复制本条信息，然后打开手机淘宝领券下单即可】",
+                item.title,
+                urlInfo.couponLinkTaoToken ?? urlInfo.taoToken,
+                item.zkPrice,
+                item.couponInfo,
+                item.zkPrice - item.couponAmount,
+                urlInfo.couponShortLinkUrl ?? urlInfo.shortLinkUrl
+                );
+            replier.ReplyText(msg);
         }
 
         private static void Init()

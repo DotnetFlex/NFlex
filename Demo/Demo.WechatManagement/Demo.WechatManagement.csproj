@@ -16,7 +16,7 @@
     <RootNamespace>Demo.WechatManagement</RootNamespace>
     <AssemblyName>Demo.WechatManagement</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -121,6 +121,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlimamaClientFactory.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ReceivePushController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -163,6 +164,10 @@
       <Project>{c792d3b0-94f2-42a1-b6f8-5371c7eaf05f}</Project>
       <Name>NFlex.Opens.Weixin</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Opens\NFlex.Opens.Taobao\NFlex.Opens.Taobao.csproj">
+      <Project>{dff5e7eb-b563-4232-83a0-2f980c807414}</Project>
+      <Name>NFlex.Opens.Taobao</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -177,9 +182,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>12018</DevelopmentServerPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:12018/</IISUrl>
+          <IISUrl>http://localhost/Demo.WechatManagement</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
