@@ -1,4 +1,5 @@
 ﻿using NFlex;
+using NFlex.Opens.Taobao.AlimamaResult;
 using NFlex.Opens.Weixin;
 using NFlex.Opens.Weixin.PushMessage;
 using System;
@@ -57,13 +58,14 @@ namespace Demo.WechatManagement
 
         private void Receiver_ReceiveTextMessage(TextMessage message, Replier replier)
         {
-            if(!message.Content.IsUrl())
+            var searchStr = GetSearchContent(message.Content);
+            if(string.IsNullOrEmpty(searchStr))
             {
-                replier.ReplyText("不要发这些没用的，有本事发个淘宝的商品链接试试");
+                replier.ReplyText("根据您输入的内容无法找到优惠商品");
                 return;
             }
 
-            var items = AlimamaClientFactory.Instance.SearchItems(message.Content);
+            var items = AlimamaClientFactory.Instance.SearchItems(searchStr);
             if(items.Count==0)
             {
                 replier.ReplyText("没有找到此商品的优惠链接");
@@ -89,6 +91,30 @@ namespace Demo.WechatManagement
             #endregion
 
             replier.ReplyText(msg);
+        }
+
+        private string GetSearchContent(string str)
+        {
+            //获取文本中所有Url链接
+            var urls = str.GetUrls();
+
+            //如果文本中不含链接，则试着当做商品名称来查询
+            if (urls.Count == 0)
+            {
+                return str;
+            }
+
+            foreach(string url in urls)
+            {
+                if (!string.IsNullOrEmpty(url.GetUrlParam("id"))) return string.Format("https://item.taobao.com/item.htm?id={0}", url.GetUrlParam("id"));
+
+                HttpClient client = new HttpClient();
+                var subUrls = client.Get(url).ToString().GetUrls();
+                var subUrl = subUrls.FirstOrDefault(t => !string.IsNullOrEmpty(t.GetUrlParam("id")));
+                if (!string.IsNullOrEmpty(subUrl.GetUrlParam("id"))) return string.Format("https://item.taobao.com/item.htm?id={0}", subUrl.GetUrlParam("id"));
+            }
+
+            return "";
         }
 
         private static void Init()

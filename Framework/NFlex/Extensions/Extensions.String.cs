@@ -58,10 +58,25 @@ namespace NFlex
             foreach(var p in paramList)
             {
                 var _t = p.Split('=');
-                if (_t.Length < 2) continue;
-                if (_t[0].ToLower() == key.ToLower()) return _t[1];
+                if (_t[0].ToLower() == key.ToLower()) return _t.Length<2?"":_t[1];
             }
             return "";
+        }
+
+        /// <summary>
+        /// 获取字符串中所有合法的 Url 地址
+        /// </summary>
+        /// <param name="str"></param>
+        public static List<string> GetUrls(this string str)
+        {
+            List<string> urls = new List<string>();
+            Regex re = new Regex(@"(?<url>http(s)?://([\w-]+\.)+[\w-]+(/[\w-./?%&=]*)?)");
+            MatchCollection mc = re.Matches(str);
+            foreach (Match m in mc)
+            {
+                urls.Add(m.Result("${url}"));
+            }
+            return urls;
         }
         
 
@@ -153,7 +168,7 @@ namespace NFlex
         private const string IDCARD_15_PATTERN = @"^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$";
         private const string IDCARD_18_PATTERN = @"^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$";
         private const string GUID_PATTERN = @"[A-F0-9]{8}(-[A-F0-9]{4}){3}-[A-F0-9]{12}|[A-F0-9]{32}";
-        private const string URL_PATTERN = @"^(http|https)\://([a-zA-Z0-9\.\-]+(\:[a-zA-Z0-9\.&%\$\-]+)*@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|localhost|([a-zA-Z0-9\-]+\.)*[a-zA-Z0-9\-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{1,10}))(\:[0-9]+)*(/($|[a-zA-Z0-9\.\,\?\'\\\+&%\$#\=~_\-]+))*$";
+        private const string URL_PATTERN = @"^http(s)?://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?$";
         private const string IP_PATTERN = @"^(\d(25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])\d\.){3}\d(25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])\d$";
 
         /// <summary>

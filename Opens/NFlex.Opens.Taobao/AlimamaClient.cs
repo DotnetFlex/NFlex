@@ -101,20 +101,20 @@ namespace NFlex.Opens.Taobao
             if (html.IndexOf("<title>页面跳转中</title>") == -1)
                 return false;
 
-            var urls = GetUrls(html);
+            var urls = html.GetUrls();
             Client.AddHeader("Referer", "https://login.taobao.com/member/login.jhtml?redirectURL=http%3A%2F%2Fwww.alimama.com")
                 .Get(urls[1]);
 
             return true;
         }
 
-        public List<SearchItemResult.Item> SearchItems(string searchStr)
+        public List<SearchItemResult.Item> SearchItems(string searchStr,int pageSize=50)
         {
             Client.Encoding = Encoding.UTF8;
             var result = Client.AddQuery("q", searchStr.UrlEncode())
                 .AddQuery("_t", Common.TimeStamp)
                 .AddQuery("auctionTag", "")
-                .AddQuery("perPageSize", "50")
+                .AddQuery("perPageSize", pageSize)
                 .AddQuery("shopTag", "")
                 .AddQuery("t", Common.TimeStamp)
                 .AddQuery("_tb_token_", "")
@@ -178,17 +178,6 @@ namespace NFlex.Opens.Taobao
                 bytes.Add(Convert.ToByte(hex.Substring(i, 2), 16));
             }
             return bytes.ToArray();
-        }
-        private List<string> GetUrls(string html)
-        {
-            List<string> urls = new List<string>();
-            Regex re = new Regex(@"(?<url>http(s)?://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?)");
-            MatchCollection mc = re.Matches(html);
-            foreach (Match m in mc)
-            {
-                urls.Add(m.Result("${url}"));
-            }
-            return urls;
         }
     }
 }
