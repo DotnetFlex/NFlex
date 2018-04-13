@@ -16,6 +16,7 @@ namespace Demo.WechatManagement
         public WxReceiver Receiver { get; set; }
         public WxClient Client { get; set; }
 
+        WeixinConfig _config;
         private static WeixinManager _manager;
 
         public static WeixinManager Instance
@@ -30,8 +31,9 @@ namespace Demo.WechatManagement
 
         private WeixinManager(WeixinConfig config)
         {
-            Client = new WxClient(config.ApiUrl, new DefaultTokenContainer(config.ApiUrl, config.AppId, config.AppSecret));
-            Receiver = new WxReceiver(config.Token, config.EncodingAESKey);
+            _config = config;
+            Client = new WxClient(_config.ApiUrl, new DefaultTokenContainer(_config.ApiUrl, _config.AppId, _config.AppSecret));
+            Receiver = new WxReceiver(_config.Token, _config.EncodingAESKey);
 
             Receiver.ReceiveTextMessage += Receiver_ReceiveTextMessage;
             Receiver.SubscribeEvent += Receiver_SubscribeEvent;
@@ -39,21 +41,7 @@ namespace Demo.WechatManagement
 
         private void Receiver_SubscribeEvent(ScanEventArgs eventArgs, Replier replier)
         {
-            if(string.IsNullOrEmpty(eventArgs.EventKey))
-            {
-                replier.ReplyText("终于等到你，还好我没放弃！\r\n在深圳购买演出票记得上趣票哦！！！");
-            }
-            else
-            {
-
-                replier.ReplyNews(new Replier.NewsContent
-                {
-                    Title = "“创作随你”德国红点设计大展暨万象天地创作纪念展",
-                    PicUrl = "http://imgcdn.qupiaowang.com:9007//TicketPic/20170904/20170904173449578_B64354B5918146DBB8447009A7927B7E_-591542336.jpg",
-                    Url = "wechat.qupiaowang.com/infor/show-5814.html",
-                    Description = "设计届的奥斯卡，世界三大设计奖项之首，红点跨界合作商业中心，17年获奖作品首次亮相中国"
-                });
-            }
+            replier.ReplyText(_config.SubscribeMessage);
         }
 
         private void Receiver_ReceiveTextMessage(TextMessage message, Replier replier)
@@ -81,7 +69,7 @@ namespace Demo.WechatManagement
             var urlInfo = AlimamaClientFactory.Instance.CreatePromotUrl(items[0].auctionId, siteId, adzoneId);
 
             string msg = string.Format("{0}\r\n{1}\r\n\r\n原价：{2}元\r\n优惠券：{3}\r\n券后价：{4}\r\n\r\n{5}\r\n【长按复制本条信息，然后打开手机淘宝领券下单即可】",
-                item.title,
+                item.title.ClearHtml(),
                 urlInfo.couponLinkTaoToken ?? urlInfo.taoToken,
                 item.zkPrice,
                 item.couponInfo,

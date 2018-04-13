@@ -21,5 +21,7 @@ namespace Demo.WechatManagement
         public string ApiUrl { get; set; }
 
         public string EncodingAESKey { get; set; } = "";
+
+        public string SubscribeMessage { get; set; }
     }
 }

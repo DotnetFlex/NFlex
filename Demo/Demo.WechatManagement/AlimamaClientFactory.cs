@@ -1,4 +1,5 @@
-﻿using NFlex.Opens.Taobao;
+﻿using NFlex;
+using NFlex.Opens.Taobao;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +17,9 @@ namespace Demo.WechatManagement
             {
                 if(_instance==null)
                 {
+                    var config = Config.LoadConfig<AlimamaConfig>("Alimama.config");
                     _instance = new AlimamaClient();
-                    _instance.Login("账号", "密码");
+                    _instance.Login(config.UserName, config.Password);
                 }
                 return _instance;
             }

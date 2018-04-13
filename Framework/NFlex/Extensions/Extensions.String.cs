@@ -24,6 +24,15 @@ namespace NFlex
             return result;
         }
 
+        public static string ClearHtml(this string str)
+        {
+            string strText = Regex.Replace(str, "<[^>]+>", "");
+            strText = Regex.Replace(strText, "&[^;]+;", "");
+            
+
+            return strText;
+        }
+
         /// <summary>
         /// Url编码
         /// </summary>

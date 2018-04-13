@@ -4,6 +4,7 @@ using NFlex.Opens.Taobao.AlimamaResult;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -15,29 +16,23 @@ namespace NFlex.Opens.Taobao
     public class AlimamaClient
     {
         const string EXPONENT = "010001";
+        
+        private CookieContainer _cookie=new CookieContainer();
 
-        private HttpClient _client;
-
-
-        public HttpClient Client
+        private HttpClient GetClient()
         {
-            get {
-                if (_client == null)
-                {
-                    _client = new HttpClient();
-                    _client.Encoding = Encoding.Default;
-                }
-                return _client;
-            }
+            return new HttpClient(_cookie);
         }
 
         public bool Login(string username,string password)
         {
-            var loginHtml = Client.Get("https://login.taobao.com/member/login.jhtml?style=mini&newMini2=true&css_style=alimama_index&from=alimama&redirectURL=http%3A%2F%2Fwww.alimama.com&full_redirect=true&disableQuickLogin=true")
+            var client = GetClient();
+            client.Encoding = Encoding.Default;
+            var loginHtml = client.Get("https://login.taobao.com/member/login.jhtml?style=mini&newMini2=true&css_style=alimama_index&from=alimama&redirectURL=http%3A%2F%2Fwww.alimama.com&full_redirect=true&disableQuickLogin=true")
                 .ToString();
             CQ cq = loginHtml;
             var pbk = cq.Find("#J_PBK").Val();
-            var html = Client
+            var html = client
                 .AddForm("TPL_username", username)
                 .AddForm("TPL_password", "")
                 .AddForm("ncoSig", "")
@@ -93,8 +88,8 @@ namespace NFlex.Opens.Taobao
                 .AddForm("nickLoginLink", "")
                 .AddForm("mobileLoginLink", "https://login.taobao.com/member/login.jhtml?style=mini&newMini2=true&css_style=alimama_index&from=alimama&redirectURL=http://www.alimama.com&full_redirect=true&disableQuickLogin=true&useMobile=true")
                 .AddForm("showAssistantLink", "")
-                .AddForm("um_token","HV01PAAZ0b87260f716ee8395ace4bd300362673")
-                .AddForm("ua", "107#ssOG8zS9spohgMC8/Sr+Xz91lnblgOPUtsSRT8DwgzODlwsKOtsc3sObln93g/IyXzSYT8fagzOxxXGQ/dAvOwOrRmbkgVYEiwTUTrm7gLbMYwfCzezW4sR0KNJgbKiisRGxW6cZA3tfQqDfgQIRXU6ZWUetzQwTMdN7SvB8KOKMbTdo65tmjJsrMEe5jk05R0OUPeJcjeVjSRBsNSCXXQPmbLc6QXXlE8TnlDmilF0q5cMEPy3l+QI8Qvzop1+yEargcepuGv+dggqDMDldef03F68M8fr/EUHRcUpzC6p2gT/YBBMHXDz581AqvKl9FaQgee/ZCBeSkT+G7BFXcTNAZ6aZFZQdteiU8uTJ3d927HWmKyWm3kGI1ms8f0lJqu/wuY/0tvE52jj2Kyji3fvq12fhFmqmCqj33eOeumqnBQjTPJLOCy4uem2r8dlewVQwGVgvGxH7WH/hjyYgudaICd05ufu8bo9ZUMi/3pyVkBEy+k9kuccUvpRwIcHmcYgBo3QqvmD3iDiU7kTVCy4WF5foFZ3Rwne1G/gI87+i69p56yOPhBNplv2advrih+e1G/gI87+NyD+Ygjtme129dm2ZFv+nuVtwCzej8JT2jp+Bmg9Jh6IIeZ8oc1HiIui18uer8vDoy9QjBgKJtJwZQm28c1i/CupIqMjct1i2B9iHNyr3wZ53Z5va929m9ryh3qKHrdqT7JHkm99PhZBQQ6dZcc+2a/93hMVC8DV2B9+OkDr2exm3vf0alJQnh/iqGeVHeviky6t4B9/PwvZbZ6xRQ9eza/V1hrYO8J3sP1/Is9+Dq05HQffadxjcorj7FtY7CJDjyEuJkQhy3x1qxTfdZJp2th/PwwVWqft7+HiG7ipLCyRIedvd8XEXEIK4lu7cgRM7PcP/zYXlXbs9bKbNQFEX")
+                .AddForm("um_token","")
+                .AddForm("ua", "")
                 .Post("https://login.taobao.com/member/login.jhtml?redirectURL=http%3A%2F%2Fwww.alimama.com")
                 .ToString();
 
@@ -102,7 +97,7 @@ namespace NFlex.Opens.Taobao
                 return false;
 
             var urls = html.GetUrls();
-            Client.AddHeader("Referer", "https://login.taobao.com/member/login.jhtml?redirectURL=http%3A%2F%2Fwww.alimama.com")
+            client.AddHeader("Referer", "https://login.taobao.com/member/login.jhtml?redirectURL=http%3A%2F%2Fwww.alimama.com")
                 .Get(urls[1]);
 
             return true;
@@ -110,8 +105,9 @@ namespace NFlex.Opens.Taobao
 
         public List<SearchItemResult.Item> SearchItems(string searchStr,int pageSize=50)
         {
-            Client.Encoding = Encoding.UTF8;
-            var result = Client.AddQuery("q", searchStr.UrlEncode())
+            var client = GetClient();
+            client.Encoding = Encoding.UTF8;
+            var result = client.AddQuery("q", searchStr.UrlEncode())
                 .AddQuery("_t", Common.TimeStamp)
                 .AddQuery("auctionTag", "")
                 .AddQuery("perPageSize", pageSize)
@@ -127,8 +123,9 @@ namespace NFlex.Opens.Taobao
 
         public GetAdzoneResult.Data GetAdzones(string itemId)
         {
-            Client.Encoding = Encoding.UTF8;
-            var result = Client
+            var client = GetClient();
+            client.Encoding = Encoding.UTF8;
+            var result = client
                 .AddQuery("tag", "29")
                 .AddQuery("itemId", itemId)
                 .AddQuery("blockId", "")
@@ -143,8 +140,9 @@ namespace NFlex.Opens.Taobao
         public CreatePromotUrlResult.UrlInfo CreatePromotUrl(string itemId,string siteId,string adzoneId)
         {
 
-            Client.Encoding = Encoding.UTF8;
-            var result = Client
+            var client = GetClient();
+            client.Encoding = Encoding.UTF8;
+            var result = client
                 .AddQuery("auctionid", itemId)
                 .AddQuery("adzoneid", adzoneId)
                 .AddQuery("siteid", siteId)
