@@ -61,8 +61,6 @@ namespace NFlex.Core.Ioc
                 .InstancePerLifetimeScope()
                 .PropertiesAutowired()
                 .PreserveExistingDefaults();
-
-            
         }
     }
 }

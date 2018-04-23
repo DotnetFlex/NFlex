@@ -19,7 +19,9 @@ namespace Demo.WechatManagement
                 {
                     var config = Config.LoadConfig<AlimamaConfig>("Alimama.config");
                     _instance = new AlimamaClient();
+                    Log.Debug("登录阿里账号...");
                     _instance.Login(config.UserName, config.Password);
+                    Log.Debug("阿里账号登录成功");
                 }
                 return _instance;
             }

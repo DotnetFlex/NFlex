@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Demo.Infrastructure.Repositories
 {
-    public class UserRepository:Repository<UserInfo>, IUserRepository
+    public class UserRepository:RepositoryBase<UserInfo>, IUserRepository
     {
         public UserRepository(IDbContext context):base(context)
         {

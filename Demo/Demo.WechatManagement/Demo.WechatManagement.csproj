@@ -126,9 +126,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ReceivePushController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Filters\MvcExceptionFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WeixinConfig.cs" />
     <Compile Include="WeixinManager.cs" />
@@ -158,6 +160,10 @@
     <Folder Include="Views\ReceivePush\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Framework\NFlex.Logging.Log4Net\NFlex.Logging.Log4Net.csproj">
+      <Project>{E9D6C1E9-FADB-40F5-8799-851B127BDEB2}</Project>
+      <Name>NFlex.Logging.Log4Net</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Framework\NFlex\NFlex.csproj">
       <Project>{af994e89-e181-4434-90df-56e52b7838d1}</Project>
       <Name>NFlex</Name>

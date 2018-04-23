@@ -8,11 +8,11 @@ using NFlex.Core.Query;
 
 namespace NFlex.Data.EF
 {
-    public abstract class Repository<TAggregateRoot,TKey>:IRepository<TAggregateRoot,TKey> where TAggregateRoot:class,IAggregateRoot<TKey>
+    public abstract class RepositoryBase<TAggregateRoot,TKey>:IRepository<TAggregateRoot,TKey> where TAggregateRoot:class,IAggregateRoot<TKey>
     {
         protected IDbContext _dbContext { get; private set; }
 
-        protected Repository(IDbContext dbContext)
+        protected RepositoryBase(IDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -188,10 +188,10 @@ namespace NFlex.Data.EF
         }
     }
 
-    public abstract class Repository<TAggregateRoot>:Repository<TAggregateRoot,Guid>
+    public abstract class RepositoryBase<TAggregateRoot>:RepositoryBase<TAggregateRoot,Guid>
         where TAggregateRoot:class,IAggregateRoot<Guid>
     {
-        protected Repository(IDbContext dbContext)
+        protected RepositoryBase(IDbContext dbContext)
             : base(dbContext)
         {
         }

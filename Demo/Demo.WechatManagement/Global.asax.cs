@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Demo.WechatManagement.Filters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,8 +12,11 @@ namespace Demo.WechatManagement
     {
         protected void Application_Start()
         {
+            GlobalFilters.Filters.Add(new MvcExceptionFilterAttribute());
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
+
+        
     }
 }

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Xml.Serialization;
+using static NFlex.Opens.Taobao.AlimamaResult.GetAdzoneResult;
 
 namespace Demo.WechatManagement
 {
@@ -46,6 +47,7 @@ namespace Demo.WechatManagement
 
         private void Receiver_ReceiveTextMessage(TextMessage message, Replier replier)
         {
+            Log.Debug(string.Format("收到用户消息：{0}", message.Content));
             var searchStr = GetSearchContent(message.Content);
             if(string.IsNullOrEmpty(searchStr))
             {
@@ -54,7 +56,7 @@ namespace Demo.WechatManagement
             }
 
             var items = AlimamaClientFactory.Instance.SearchItems(searchStr);
-            if(items.Count==0)
+            if(items==null ||items.Count==0)
             {
                 replier.ReplyText("没有找到此商品的优惠链接");
                 return;
@@ -63,7 +65,12 @@ namespace Demo.WechatManagement
             #region 转换商品链接
             var item = items.First();
             var adzones = AlimamaClientFactory.Instance.GetAdzones(item.auctionId);
-            var adzone = adzones.webAdzones.FirstOrDefault();
+            var adzone = GetAdzone(adzones);
+            if(adzone==null)
+            {
+                Log.Debug("未找到有效的广告位");
+                replier.PassReply();
+            }
             var adzoneId = adzone.id;
             var siteId = adzone.sub.FirstOrDefault().id;
             var urlInfo = AlimamaClientFactory.Instance.CreatePromotUrl(items[0].auctionId, siteId, adzoneId);
@@ -79,6 +86,14 @@ namespace Demo.WechatManagement
             #endregion
 
             replier.ReplyText(msg);
+        }
+
+        private Adzone GetAdzone(GetAdzoneResult.Data adzones)
+        {
+            if (adzones.otherAdzones.Any())
+                return adzones.otherAdzones.FirstOrDefault();
+            else
+                return adzones.webAdzones.FirstOrDefault();
         }
 
         private string GetSearchContent(string str)
